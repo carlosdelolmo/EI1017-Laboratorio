@@ -78,9 +78,19 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
     }
 
     private List<Double> suma(List<Double> lista1, List<Double> lista2){
-        return null;
+        List<Double> resultado = new ArrayList<Double>(lista1.size());
+        for(int i=0; i<lista1.size(); i++){
+            resultado.set(i, lista1.get(i)+lista2.get(i));
+        }
+        return resultado;
     }
-    private List<Double> multiplicar(List<Double> lista, double constante){return null;}
+    private List<Double> multiplicar(List<Double> lista, double constante){
+        List<Double> resultado = new ArrayList<Double>(lista.size());
+        for(int i=0; i<lista.size(); i++){
+            resultado.set(i, lista.get(i)*constante);
+        }
+        return resultado;
+    }
 
     public Double estimate(Double d){
         return 0.0;
