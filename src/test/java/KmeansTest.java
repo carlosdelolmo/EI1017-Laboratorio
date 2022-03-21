@@ -28,8 +28,17 @@ class KmeansTest {
         List<Integer> lista = new LinkedList<>();
         lista.add(2); lista.add(56); lista.add(78); lista.add(64); lista.add(120);
         for(int index : lista){
-            System.out.println(index + " - " + tabla.getRowAt(index).getLabel());
             assertEquals(tabla.getRowAt(index).getLabel(), algoritmo.estimate(tabla.getRowAt(index)));
+            // Comprobamos que para 5 elementos de iris.csv, las estimaciones son correctas.
+        }
+        for(int j = 65; j < 100; j+= 5) {
+            RowWithLabel fila = tabla.getRowAt(j);
+            RowWithLabel filaMod = new RowWithLabel();
+            for (int i = 0; i < fila.getData().size(); i++) {
+                filaMod.add(String.valueOf(fila.getElement(i) + 0.1));
+            }
+            assertEquals(fila.getLabel(), algoritmo.estimate(filaMod));
+            // Comprobamos que para 5 elementos cercanos a valores conocidos de iris.csv, las estimaciones son las esperadas.
         }
     }
 }
