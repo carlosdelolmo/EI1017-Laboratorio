@@ -33,7 +33,7 @@ public class CSV {
     private Table readDocument(BufferedReader br, Table tabla){
         while(true){
             try {
-                if (!((line =br.readLine()) !=null)) break;
+                if ((line = br.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
