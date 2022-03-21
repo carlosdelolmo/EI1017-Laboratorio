@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Kmeans implements Algorithm<Table,Double,Double>{
+public class Kmeans implements Algorithm<TableWithLabels,Row,String>{
     public Kmeans(int numberClusters, int iterations, long seed){
         this.numberClusters=numberClusters;
         this.iterations=iterations;
@@ -13,24 +13,26 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
     private int iterations;
     private long seed;
     private List<List<Double>> representantes;
+    private List<String> etiquetas;
+    private List<Integer> asignaciones;
+    private TableWithLabels t;
 
-    public void train(Table t){
+    public void train(TableWithLabels t){
+        this.t = t;
         representantes=obtenerRepresentantes(t);
-        List<Integer> asignaciones= new ArrayList<Integer>(t.getNumFilas());
+        asignaciones= new ArrayList<Integer>(t.getNumFilas());
         for(int i=0; i<iterations;i++){
             asignaciones=asignarAGrupos(t,asignaciones,representantes);
             calcularCentroides(t,asignaciones);
         }
-
     }
 
-    private List<List<Double>> obtenerRepresentantes (Table datos){
+    private List<List<Double>> obtenerRepresentantes (TableWithLabels datos){
         List<List<Double>> representantes = new LinkedList<List<Double>>();
         Random random= new Random(seed);
         for(int i=0;i<numberClusters;i++) {
             int indice = random.nextInt();
             List<Double> nuevafila = datos.getRowAt(indice).getData();
-
             representantes.add(nuevafila);
         }
         return  representantes;
@@ -39,18 +41,23 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
 
     private List<Integer> asignarAGrupos (Table datos, List<Integer> listaGrupos, List<List<Double>> repre){
         for(int i=0; i<datos.getNumFilas();i++){
-            double min_dist=-1.0;
-            int indice_grupo=0;
-            for(int j=0;j< repre.size();j++){
-                double dist= metricaEuclidea(datos.getRowAt(i).getData(),repre.get(j));
-                if(min_dist==-1.0 || min_dist>dist){
-                    min_dist=dist;
-                    indice_grupo=j;
-                }
-            }
+            int indice_grupo = calcularGrupo(datos.getRowAt(i), listaGrupos, repre);
             listaGrupos.set(i,indice_grupo);
         }
         return listaGrupos;
+    }
+
+    private int calcularGrupo(Row fila, List<Integer> listaGrupos, List<List<Double>> repre){
+        double min_dist=-1.0;
+        int indice_grupo=0;
+        for(int j=0;j< repre.size();j++){
+            double dist= metricaEuclidea(fila.getData(),repre.get(j));
+            if(min_dist==-1.0 || min_dist>dist){
+                min_dist=dist;
+                indice_grupo=j;
+            }
+        }
+        return indice_grupo;
     }
 
     private Double metricaEuclidea(List<Double> nuevaMuestra, List<Double> elementoFichero){
@@ -63,7 +70,7 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
         return (Double) Math.sqrt(sumatorio);
     }
 
-    private void calcularCentroides(Table datos, List<Integer> asignaciones){
+    private void calcularCentroides(TableWithLabels datos, List<Integer> asignaciones){
         List<Integer> puntosporgrupo= new ArrayList<Integer>(representantes.size());
         List<List<Double>> sumapuntos= new ArrayList<List<Double>>(representantes.size());
         for(int i=0; i<datos.getNumFilas();i++){
@@ -74,7 +81,9 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
         }
         for(int i=0; i<numberClusters; i++){
             representantes.set(i, multiplicar(sumapuntos.get(i), 1/puntosporgrupo.get(i)));
+            calcularEtiqueta(datos, asignaciones, i);
         }
+
     }
 
     private List<Double> suma(List<Double> lista1, List<Double> lista2){
@@ -84,6 +93,7 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
         }
         return resultado;
     }
+
     private List<Double> multiplicar(List<Double> lista, double constante){
         List<Double> resultado = new ArrayList<Double>(lista.size());
         for(int i=0; i<lista.size(); i++){
@@ -92,9 +102,19 @@ public class Kmeans implements Algorithm<Table,Double,Double>{
         return resultado;
     }
 
-    public Double estimate(Double d){
-        return 0.0;
-    };
+    public String estimate(Row d){
+        int grupo = calcularGrupo(d, new LinkedList<>(), representantes);
+        return calcularEtiqueta(t, asignaciones, grupo);
+    }
+
+    private String calcularEtiqueta(TableWithLabels t, List<Integer> asignaciones, int indiceGrupo){
+        for(int i=0; i < t.getNumFilas(); i++){
+            if(asignaciones.get(i) == indiceGrupo){
+                return t.getRowAt(i).getLabel();
+            }
+        }
+        return null;
+    }
 
 
 }
