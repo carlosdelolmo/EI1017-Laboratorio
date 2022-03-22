@@ -1,3 +1,4 @@
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -5,13 +6,15 @@ import java.util.Random;
 
 public class Kmeans implements Algorithm < TableWithLabels, Row, String > {
     public Kmeans(int numberClusters, int iterations, long seed) {
+        validarDatosEntrada(numberClusters, iterations);
         this.numberClusters = numberClusters;
         this.iterations = iterations;
         this.seed = seed;
     }
-    private int numberClusters;
-    private int iterations;
-    private long seed;
+
+    final private int numberClusters;
+    final private int iterations;
+    final private long seed;
     private List < List < Double >> representantes;
     private List < String > etiquetas;
     private List < Integer > asignaciones;
@@ -30,6 +33,11 @@ public class Kmeans implements Algorithm < TableWithLabels, Row, String > {
     public String estimate(Row d) {
         int indiceGrupo = calcularGrupo(d); // asigna a la variable indiceGrupo el numero de grupo del centroide más cercano a d
         return obtenerEtiqueta(indiceGrupo);
+    }
+
+
+    private void validarDatosEntrada(int numberClusters, int iterations){
+        if(numberClusters < 1 || iterations < 1) throw new InvalidParameterException();
     }
 
     private List < List < Double >> obtenerRepresentantes() {   // Obtiene aleatoriamente representantes de grupos
@@ -59,7 +67,7 @@ public class Kmeans implements Algorithm < TableWithLabels, Row, String > {
             List < Double > actual = representantes.get(j);
             if (actual.size() > 0) {
                 double dist = metricaEuclidea(fila.getData(), representantes.get(j));
-                if (min_dist == -1.0 || min_dist > dist) {
+                if ( min_dist > dist || min_dist == -1.0 ) {
                     min_dist = dist;
                     indice_grupo = j;
                 }
@@ -79,23 +87,35 @@ public class Kmeans implements Algorithm < TableWithLabels, Row, String > {
     }
 
     private void calcularCentroides() {
-        List < Integer > puntosporgrupo = new ArrayList < Integer > (representantes.size());
-        List < List < Double >> sumapuntos = new ArrayList < List < Double >> (representantes.size());
-        for (int i = 0; i < representantes.size(); i++) {   // Inicializa a 0 las listas necesarias para el método
-            puntosporgrupo.add(0);
+        List < Integer > puntosPorGrupo = new ArrayList < Integer > (representantes.size());
+        List < List < Double >> sumaPuntos = new ArrayList < List < Double >> (representantes.size());
+        inicializarCalcularCentroides(puntosPorGrupo, sumaPuntos);
+        calculaPuntosPorGrupo(puntosPorGrupo, sumaPuntos);
+        mediaPuntosPorGrupo(puntosPorGrupo, sumaPuntos);
+    }
+
+    private void inicializarCalcularCentroides(List<Integer> puntosPorGrupo, List<List<Double>> sumaPuntos){ // Inicializa a 0 las listas necesarias para el método
+        for (int i = 0; i < representantes.size(); i++) {
+            puntosPorGrupo.add(0);
             List < Double > auxiliar = new ArrayList < > (representantes.size());
             for (int j = 0; j < t.getNumColumnas() - 1; j++)
                 auxiliar.add(0.);
-            sumapuntos.add(auxiliar);
+            sumaPuntos.add(auxiliar);
         }
-        for (int i = 0; i < t.getNumFilas(); i++) {    // Calcula cuántos puntos hay en cada grupo y la suma de los valores por grupo
+    }
+
+    private void calculaPuntosPorGrupo(List<Integer> puntosPorGrupo, List<List<Double>> sumaPuntos){ // Calcula cuántos puntos hay en cada grupo y la suma de los valores por grupo
+        for (int i = 0; i < t.getNumFilas(); i++) {
             int grupoActual = asignaciones.get(i);
-            int puntosActuales = 1 + puntosporgrupo.get(grupoActual);
-            puntosporgrupo.set(grupoActual, puntosActuales);
-            sumapuntos.set(grupoActual, suma(sumapuntos.get(grupoActual), t.getRowAt(i).getData()));
+            int puntosActuales = 1 + puntosPorGrupo.get(grupoActual);
+            puntosPorGrupo.set(grupoActual, puntosActuales);
+            sumaPuntos.set(grupoActual, suma(sumaPuntos.get(grupoActual), t.getRowAt(i).getData()));
         }
-        for (int i = 0; i < numberClusters; i++) {  // Obtiene la 'media' por puntos de cada grupo
-            representantes.set(i, multiplicar(sumapuntos.get(i), (float) 1 / puntosporgrupo.get(i)));
+    }
+
+    private void mediaPuntosPorGrupo(List<Integer> puntosPorGrupo, List<List<Double>> sumaPuntos){ // Obtiene la 'media' por puntos de cada grupo
+        for (int i = 0; i < numberClusters; i++) {
+            representantes.set(i, multiplicar(sumaPuntos.get(i), (float) 1 / puntosPorGrupo.get(i)));
             obtenerEtiqueta(i);
         }
     }

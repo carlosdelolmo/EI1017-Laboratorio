@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ class KmeansTest {
     @Test
     void estimate() {
         algoritmo.train(tabla);
+
         List<Integer> lista = new LinkedList<>();
         lista.add(2); lista.add(56); lista.add(78); lista.add(64); lista.add(120);
         for(int index : lista){
