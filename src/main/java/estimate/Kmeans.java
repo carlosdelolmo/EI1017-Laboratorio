@@ -1,10 +1,16 @@
+package estimate;
+
+import interfaces.Algorithm;
+import row.Row;
+import table.TableWithLabels;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Kmeans implements Algorithm < TableWithLabels, Row, String > {
+public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
     final private int numberClusters;
     final private int iterations;
     final private long seed;

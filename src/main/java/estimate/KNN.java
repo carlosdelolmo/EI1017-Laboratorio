@@ -1,6 +1,11 @@
+package estimate;
+
+import interfaces.Algorithm;
+import table.TableWithLabels;
+
 import java.util.List;
 
-public class KNN implements Algorithm<TableWithLabels,List<Double>,String>{
+public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
     private TableWithLabels tabla;
     public KNN() {}
     public void train(TableWithLabels tablaAEstudiar){

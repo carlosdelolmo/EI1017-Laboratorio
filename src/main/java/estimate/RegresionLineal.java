@@ -1,6 +1,11 @@
+package estimate;
+
+import interfaces.Algorithm;
+import table.Table;
+
 import java.util.List;
 
-public class RegresionLineal implements Algorithm<Table,Double,Double>{
+public class RegresionLineal implements Algorithm<Table,Double,Double> {
     double a, b;
 
     private double media(List<Double> listado){

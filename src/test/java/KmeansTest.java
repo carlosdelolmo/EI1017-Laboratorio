@@ -1,7 +1,10 @@
+import csv.CSV;
+import estimate.Kmeans;
 import org.junit.jupiter.api.Test;
+import row.RowWithLabel;
+import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
-import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 

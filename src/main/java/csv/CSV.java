@@ -1,3 +1,8 @@
+package csv;
+
+import table.Table;
+import table.TableWithLabels;
+
 import java.io.*;
 
 public class CSV {

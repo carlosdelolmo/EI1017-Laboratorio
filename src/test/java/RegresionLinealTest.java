@@ -1,4 +1,7 @@
+import csv.CSV;
+import estimate.RegresionLineal;
 import org.junit.jupiter.api.Test;
+import table.Table;
 
 import java.io.FileNotFoundException;
 

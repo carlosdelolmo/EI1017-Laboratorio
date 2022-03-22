@@ -1,9 +1,9 @@
-import org.junit.Assert;
+import csv.CSV;
 import org.junit.jupiter.api.Test;
+import row.Row;
+import table.Table;
 
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

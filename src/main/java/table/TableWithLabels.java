@@ -1,7 +1,10 @@
-import java.util.Arrays;
-import java.util.List;
+package table;
 
-public class TableWithLabels extends Table{
+import row.RowWithLabel;
+
+import java.util.Arrays;
+
+public class TableWithLabels extends Table {
     public TableWithLabels(){}
 
     @Override

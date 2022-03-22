@@ -1,4 +1,8 @@
+import csv.CSV;
+import estimate.KNN;
 import org.junit.jupiter.api.Test;
+import row.RowWithLabel;
+import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;

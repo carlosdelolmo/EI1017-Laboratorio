@@ -1,8 +1,7 @@
 import org.junit.jupiter.api.Test;
+import row.Row;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

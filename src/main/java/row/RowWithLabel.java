@@ -1,4 +1,8 @@
-public class RowWithLabel extends Row{
+package row;
+
+import row.Row;
+
+public class RowWithLabel extends Row {
     private String label;
 
     public RowWithLabel() {}

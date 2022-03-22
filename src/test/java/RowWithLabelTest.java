@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
-
-import java.io.EOFException;
+import row.RowWithLabel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
