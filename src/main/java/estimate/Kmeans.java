@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
-    final private int numberClusters;
-    final private int iterations;
-    final private long seed;
+    final private int NUMBER_CLUSTERS;
+    final private int ITERATIONS;
+    final private long SEED;
     private TableWithLabels t;
     private List < List < Double >> representantes;
     private List < String > etiquetas;
@@ -21,16 +21,16 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
 
     public Kmeans(int numberClusters, int iterations, long seed) {
         validarDatosEntrada(numberClusters, iterations);
-        this.numberClusters = numberClusters;
-        this.iterations = iterations;
-        this.seed = seed;
+        this.NUMBER_CLUSTERS = numberClusters;
+        this.ITERATIONS = iterations;
+        this.SEED = seed;
     }
 
     public void train(TableWithLabels tabla) {
         t = tabla;
         representantes = obtenerRepresentantes();
         asignaciones = new ArrayList < Integer > (t.getNumFilas());
-        for (int i = 0; i < iterations; i++) {
+        for (int i = 0; i < ITERATIONS; i++) {
             asignaciones = asignarAGrupos();
             calcularCentroides();
         }
@@ -47,8 +47,8 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
 
     private List < List < Double >> obtenerRepresentantes() { // Obtiene aleatoriamente representantes de grupos
         List < List < Double >> representantes = new LinkedList < List < Double >> ();
-        Random random = new Random(seed);
-        for (int i = 0; i < numberClusters; i++) {
+        Random random = new Random(SEED);
+        for (int i = 0; i < NUMBER_CLUSTERS; i++) {
             int next = Math.abs(random.nextInt());
             int indice = (next) % t.getNumFilas();
             List < Double > nuevafila = t.getRowAt(indice).getData();
@@ -119,7 +119,7 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
     }
 
     private void mediaPuntosPorGrupo(List < Integer > puntosPorGrupo, List < List < Double >> sumaPuntos) { // Obtiene la 'media' por puntos de cada grupo
-        for (int i = 0; i < numberClusters; i++) {
+        for (int i = 0; i < NUMBER_CLUSTERS; i++) {
             representantes.set(i, multiplicar(sumaPuntos.get(i), (float) 1 / puntosPorGrupo.get(i)));
             obtenerEtiqueta(i);
         }
