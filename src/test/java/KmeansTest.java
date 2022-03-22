@@ -12,7 +12,7 @@ class KmeansTest {
     String sep = System.getProperty("file.separator");
     String fName = "src"+sep+"main"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
-    Kmeans algoritmo = new Kmeans(5,100, (long) 1244325235235.);
+    Kmeans algoritmo = new Kmeans(5,25, (long) 1244325235235.);
 
     KmeansTest() throws FileNotFoundException {
     }

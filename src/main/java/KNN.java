@@ -2,7 +2,6 @@ import java.util.List;
 
 public class KNN implements Algorithm<TableWithLabels,List<Double>,String>{
     private TableWithLabels tabla;
-    // private List<Double> listaDistancias = new LinkedList<>();
     public KNN() {}
     public void train(TableWithLabels tablaAEstudiar){
         tabla = tablaAEstudiar;
