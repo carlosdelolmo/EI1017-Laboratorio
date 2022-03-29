@@ -10,7 +10,7 @@ public class ManhattanDistance implements Distance {
         Double sumatorio = 0.0;
         for (int i = 0; i < p.size(); i++) {
             Double resta = (p.get(i) - q.get(i));
-            sumatorio += resta;
+            sumatorio += Math.abs(resta);
         }
         return sumatorio;
     }

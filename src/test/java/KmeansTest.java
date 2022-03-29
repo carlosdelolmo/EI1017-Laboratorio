@@ -1,5 +1,6 @@
 import csv.CSV;
 import distance.EuclideanDistance;
+import distance.ManhattanDistance;
 import estimate.Kmeans;
 import interfaces.Distance;
 import org.junit.jupiter.api.Test;
@@ -13,40 +14,55 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KmeansTest {
-    Distance distance = new EuclideanDistance();
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
     String fName = "src"+sep+"main"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
-    Kmeans algoritmo = new Kmeans(5,25, (long) 1244325235235. , distance);
+    Distance distanceEuclidean = new EuclideanDistance();
+    Distance distanceManhattan = new ManhattanDistance();
+    Kmeans algoritmoEuclidea = new Kmeans(3,25, (long) 235 , distanceEuclidean);
+    Kmeans algoritmoManhattan = new Kmeans(3,25, (long) 235. , distanceManhattan);
+
 
     KmeansTest() throws FileNotFoundException {
     }
 
     @Test
     void train() {
-
-        algoritmo.train(tabla);
+        algoritmoManhattan.train(tabla);
+        algoritmoEuclidea.train(tabla);
     }
 
     @Test
     void estimate() {
-        algoritmo.train(tabla);
+        algoritmoEuclidea.train(tabla);
+        algoritmoManhattan.train(tabla);
 
         List<Integer> lista = new LinkedList<>();
-        lista.add(2); lista.add(56); lista.add(78); lista.add(64); lista.add(120);
-        for(int index : lista){
-            assertEquals(tabla.getRowAt(index).getLabel(), algoritmo.estimate(tabla.getRowAt(index)));
+        lista.add(2); lista.add(5); lista.add(30); lista.add(22); lista.add(27);
+        for(int i = 1; i < lista.size(); i++){
+            assertEquals(algoritmoEuclidea.estimate(tabla.getRowAt(i-1)), algoritmoEuclidea.estimate(tabla.getRowAt(i)));
             // Comprobamos que para 5 elementos de iris.csv, las estimaciones son correctas.
         }
-        for(int j = 65; j < 100; j+= 5) {
+        for(int j = 65; j < 150; j+= 5) {
             RowWithLabel fila = tabla.getRowAt(j);
             RowWithLabel filaMod = new RowWithLabel();
             for (int i = 0; i < fila.getData().size(); i++) {
-                filaMod.add(String.valueOf(fila.getElement(i) + 0.1));
+                filaMod.add(String.valueOf(fila.getElement(i) + 0.2));
             }
-            assertEquals(fila.getLabel(), algoritmo.estimate(filaMod));
+            assertEquals(algoritmoEuclidea.estimate(fila), algoritmoEuclidea.estimate(filaMod));
             // Comprobamos que para 5 elementos cercanos a valores conocidos de iris.csv, las estimaciones son las esperadas.
         }
+        List<String> listaEuclidea = new LinkedList<>();
+        List<String> listaManhattan = new LinkedList<>();
+        for(int j = 35; j < 120; j+= 1) {
+            RowWithLabel fila = tabla.getRowAt(j);
+            listaEuclidea.add(algoritmoEuclidea.estimate(fila));
+            listaManhattan.add(algoritmoManhattan.estimate(fila));
+            // Comprobamos que para 5 elementos cercanos a valores conocidos de iris.csv, las estimaciones son las esperadas.
+        }
+        // System.out.println(listaEuclidea);
+        // System.out.println(listaManhattan);
+        assertNotEquals(listaEuclidea,listaManhattan);
     }
 }

@@ -20,7 +20,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     private Distance distance;
     private TableWithLabels t;
     private List < List < Double >> representantes;
-    private List < String > etiquetas;
+    // private List < String > etiquetas;
     private List < Integer > asignaciones;
 
     public Kmeans(int numberClusters, int iterations, long seed, Distance distance) {
@@ -43,7 +43,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
 
     public String estimate(Row d) {
         int indiceGrupo = calcularGrupo(d); // asigna a la variable indiceGrupo el numero de grupo del centroide más cercano a d
-        return obtenerEtiqueta(indiceGrupo);
+        return "cluster-" + indiceGrupo;
     }
 
     private void validarDatosEntrada(int numberClusters, int iterations) {
