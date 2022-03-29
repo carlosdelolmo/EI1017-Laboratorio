@@ -1,4 +1,4 @@
-import AIAlgorithms.KNN;
+import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;
 import distance.ManhattanDistance;

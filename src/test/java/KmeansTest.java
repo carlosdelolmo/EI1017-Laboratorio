@@ -1,7 +1,7 @@
 import csv.CSV;
 import distance.EuclideanDistance;
 import distance.ManhattanDistance;
-import AIAlgorithms.Kmeans;
+import aIAlgorithms.Kmeans;
 import interfaces.Distance;
 import org.junit.jupiter.api.Test;
 import row.Row;

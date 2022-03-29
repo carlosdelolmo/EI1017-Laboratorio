@@ -1,5 +1,5 @@
 import csv.CSV;
-import AIAlgorithms.RegresionLineal;
+import aIAlgorithms.RegresionLineal;
 import org.junit.jupiter.api.Test;
 import table.Table;
 

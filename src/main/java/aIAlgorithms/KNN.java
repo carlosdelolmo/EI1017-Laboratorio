@@ -1,4 +1,4 @@
-package AIAlgorithms;
+package aIAlgorithms;
 
 import interfaces.Algorithm;
 import interfaces.Distance;
