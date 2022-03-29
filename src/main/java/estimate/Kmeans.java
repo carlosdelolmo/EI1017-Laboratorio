@@ -118,7 +118,7 @@ public class Kmeans implements Algorithm<Table, Row, String > {
             int grupoActual = asignaciones.get(i);
             int puntosActuales = 1 + puntosPorGrupo.get(grupoActual);
             puntosPorGrupo.set(grupoActual, puntosActuales);
-            sumaPuntos.set(grupoActual, suma(sumaPuntos.get(grupoActual), t.getRowAt(i).getData()));
+            sumaPuntos.set(grupoActual, sumar(sumaPuntos.get(grupoActual), t.getRowAt(i).getData()));
         }
     }
 
@@ -128,7 +128,7 @@ public class Kmeans implements Algorithm<Table, Row, String > {
         }
     }
 
-    private List < Double > suma(List < Double > lista1, List < Double > lista2) { // Dadas dos listas de valores hace la suma vectorial
+    private List < Double > sumar(List < Double > lista1, List < Double > lista2) { // Dadas dos listas de valores hace la suma vectorial
         List < Double > resultado = new ArrayList < Double > (lista1.size());
         for (int i = 0; i < lista1.size(); i++) {
             resultado.add(lista1.get(i) + lista2.get(i));
