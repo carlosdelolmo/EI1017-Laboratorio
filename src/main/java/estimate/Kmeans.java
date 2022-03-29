@@ -2,6 +2,7 @@ package estimate;
 
 import interfaces.Algorithm;
 import interfaces.Distance;
+import interfaces.DistanceClient;
 import row.Row;
 import table.Table;
 import table.TableWithLabels;
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Kmeans implements Algorithm<Table, Row, String > {
+public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     final private int NUMBER_CLUSTERS;
     final private int ITERATIONS;
     final private long SEED;
@@ -150,4 +151,8 @@ public class Kmeans implements Algorithm<Table, Row, String > {
         return null;
     }
 
+    @Override
+    public void setDistance(Distance distance) {
+        this.distance = distance;
+    }
 }

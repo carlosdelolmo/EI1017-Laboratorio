@@ -3,11 +3,12 @@ package estimate;
 import distance.EuclideanDistance;
 import interfaces.Algorithm;
 import interfaces.Distance;
+import interfaces.DistanceClient;
 import table.TableWithLabels;
 
 import java.util.List;
 
-public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
+public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, DistanceClient {
     private TableWithLabels tabla;
     private Distance distance;
     public KNN(){}
@@ -40,5 +41,10 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
     }
     private Double metricaEuclidea(List<Double> nuevaMuestra, List<Double> elementoFichero){
         return distance.calculateDistance(nuevaMuestra, elementoFichero);
+    }
+
+    @Override
+    public void setDistance(Distance distance) {
+        this.distance = distance;
     }
 }
