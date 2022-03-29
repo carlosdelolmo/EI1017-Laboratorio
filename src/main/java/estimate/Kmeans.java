@@ -2,6 +2,7 @@ package estimate;
 
 import interfaces.Algorithm;
 import row.Row;
+import table.Table;
 import table.TableWithLabels;
 
 import java.security.InvalidParameterException;
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
+public class Kmeans implements Algorithm<Table, Row, String > {
     final private int NUMBER_CLUSTERS;
     final private int ITERATIONS;
     final private long SEED;
@@ -26,8 +27,8 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
         this.SEED = seed;
     }
 
-    public void train(TableWithLabels tabla) {
-        t = tabla;
+    public void train(Table datos) {
+        t = (TableWithLabels) datos;
         representantes = obtenerRepresentantes();
         asignaciones = new ArrayList < Integer > (t.getNumFilas());
         for (int i = 0; i < ITERATIONS; i++) {
@@ -49,9 +50,12 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
         List < List < Double >> representantes = new LinkedList < List < Double >> ();
         Random random = new Random(SEED);
         for (int i = 0; i < NUMBER_CLUSTERS; i++) {
-            int next = Math.abs(random.nextInt());
-            int indice = (next) % t.getNumFilas();
-            List < Double > nuevafila = t.getRowAt(indice).getData();
+            List<Double> nuevafila;
+            do {
+                int next = Math.abs(random.nextInt());
+                int indice = (next) % t.getNumFilas();
+                nuevafila = t.getRowAt(indice).getData();
+            }while(representantes.contains(nuevafila));
             representantes.add(nuevafila);
         }
         return representantes;
@@ -121,7 +125,6 @@ public class Kmeans implements Algorithm<TableWithLabels, Row, String > {
     private void mediaPuntosPorGrupo(List < Integer > puntosPorGrupo, List < List < Double >> sumaPuntos) { // Obtiene la 'media' por puntos de cada grupo
         for (int i = 0; i < NUMBER_CLUSTERS; i++) {
             representantes.set(i, multiplicar(sumaPuntos.get(i), (float) 1 / puntosPorGrupo.get(i)));
-            obtenerEtiqueta(i);
         }
     }
 
