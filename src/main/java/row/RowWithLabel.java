@@ -1,7 +1,5 @@
 package row;
 
-import row.Row;
-
 public class RowWithLabel extends Row {
     private String label;
 

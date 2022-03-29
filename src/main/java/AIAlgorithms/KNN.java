@@ -1,6 +1,5 @@
-package estimate;
+package AIAlgorithms;
 
-import distance.EuclideanDistance;
 import interfaces.Algorithm;
 import interfaces.Distance;
 import interfaces.DistanceClient;
@@ -11,7 +10,7 @@ import java.util.List;
 public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, DistanceClient {
     private TableWithLabels tabla;
     private Distance distance;
-    public KNN(){}
+
     public KNN(Distance distance) {
         this.distance = distance;
     }

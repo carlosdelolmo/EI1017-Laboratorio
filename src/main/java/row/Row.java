@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Row {
     public Row(){}
-    private List<Double> fila = new LinkedList<Double>();
+    private List<Double> fila = new LinkedList<>();
 
     public void add(String elemento){ fila.add(Double.parseDouble(elemento)); }
 

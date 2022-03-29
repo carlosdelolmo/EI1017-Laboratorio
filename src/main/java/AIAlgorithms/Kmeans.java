@@ -1,4 +1,4 @@
-package estimate;
+package AIAlgorithms;
 
 import interfaces.Algorithm;
 import interfaces.Distance;
@@ -34,7 +34,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     public void train(Table datos) {
         t = (TableWithLabels) datos;
         representantes = obtenerRepresentantes();
-        asignaciones = new ArrayList < Integer > (t.getNumFilas());
+        asignaciones = new ArrayList<>(t.getNumFilas());
         for (int i = 0; i < ITERATIONS; i++) {
             asignaciones = asignarAGrupos();
             calcularCentroides();
@@ -51,7 +51,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     }
 
     private List < List < Double >> obtenerRepresentantes() { // Obtiene aleatoriamente representantes de grupos
-        List < List < Double >> representantes = new LinkedList < List < Double >> ();
+        List < List < Double >> representantes = new LinkedList<>();
         Random random = new Random(SEED);
         for (int i = 0; i < NUMBER_CLUSTERS; i++) {
             List<Double> nuevafila;
@@ -94,8 +94,8 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     }
 
     private void calcularCentroides() {
-        List < Integer > puntosPorGrupo = new ArrayList < Integer > (representantes.size());
-        List < List < Double >> sumaPuntos = new ArrayList < List < Double >> (representantes.size());
+        List < Integer > puntosPorGrupo = new ArrayList<>(representantes.size());
+        List < List < Double >> sumaPuntos = new ArrayList<>(representantes.size());
         inicializarCalcularCentroides(puntosPorGrupo, sumaPuntos);
         calculaPuntosPorGrupo(puntosPorGrupo, sumaPuntos);
         mediaPuntosPorGrupo(puntosPorGrupo, sumaPuntos);
@@ -127,7 +127,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     }
 
     private List < Double > sumar(List < Double > lista1, List < Double > lista2) { // Dadas dos listas de valores hace la suma vectorial
-        List < Double > resultado = new ArrayList < Double > (lista1.size());
+        List < Double > resultado = new ArrayList<>(lista1.size());
         for (int i = 0; i < lista1.size(); i++) {
             resultado.add(lista1.get(i) + lista2.get(i));
         }
@@ -135,20 +135,11 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     }
 
     private List < Double > multiplicar(List < Double > lista, double constante) { // Dadas dos listas de valores hace el producto escalar
-        List < Double > resultado = new ArrayList < Double > (lista.size());
-        for (int i = 0; i < lista.size(); i++) {
-            resultado.add(lista.get(i) * constante);
+        List < Double > resultado = new ArrayList<>(lista.size());
+        for (Double aDouble : lista) {
+            resultado.add(aDouble * constante);
         }
         return resultado;
-    }
-
-    private String obtenerEtiqueta(int indiceGrupo) { // Dado el índice de un grupo, obtiene la etiqueta de uno de sus elementos
-        for (int i = 0; i < t.getNumFilas(); i++) {
-            if (asignaciones.get(i) == indiceGrupo) {
-                return t.getRowAt(i).getLabel();
-            }
-        }
-        return null;
     }
 
     @Override

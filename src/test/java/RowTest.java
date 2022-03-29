@@ -29,6 +29,6 @@ class RowTest {
             setElementos.add((double) i);
             fila.add(String.valueOf(i));
         }
-        fila.getData().containsAll(setElementos);
+        assertTrue(fila.getData().containsAll(setElementos));
     }
 }

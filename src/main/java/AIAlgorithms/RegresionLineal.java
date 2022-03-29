@@ -1,4 +1,4 @@
-package estimate;
+package AIAlgorithms;
 
 import interfaces.Algorithm;
 import table.Table;
@@ -20,8 +20,7 @@ public class RegresionLineal implements Algorithm<Table,Double,Double> {
 
     public void train(Table tabla){
         List<Double> X = tabla.getColumAt(0), Y = tabla.getColumAt(1);
-        double mediaX = media(X), mediaY = media(Y), difX = 0, numerador = 0, denominador = 0;
-        a = 0;
+        double mediaX = media(X), mediaY = media(Y), difX, numerador = 0, denominador = 0;
         for(int i = 0; i < X.size(); i++){
             difX = (X.get(i)-mediaX);
             numerador += difX * (Y.get(i) - mediaY);
@@ -29,7 +28,7 @@ public class RegresionLineal implements Algorithm<Table,Double,Double> {
         }
 
 
-        a = (double) numerador / denominador;
+        a = numerador / denominador;
         b = mediaY - a * mediaX;
     }
 

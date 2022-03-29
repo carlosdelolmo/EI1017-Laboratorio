@@ -2,18 +2,17 @@ package table;
 
 import row.Row;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Table {
     protected List<Row> datos = new LinkedList<>();
-    private List<String> header = new LinkedList<String>();
+    private List<String> header = new LinkedList<>();
     public Table(){}
 
     public void addHeader (String[] campos){
-        for(int i=0;i< campos.length;i++){
-            header.add(campos[i]);
-        }
+        Collections.addAll(header, campos);
     }
 
     public void addRow(String[] palabras){
@@ -23,15 +22,15 @@ public class Table {
     }
 
     protected void getRowToInsert(String[] palabras, Row fila){
-        for(int a=0;a< palabras.length;a++){
-            fila.add(palabras[a]);
+        for (String palabra : palabras) {
+            fila.add(palabra);
         }
     }
 
     public List<Double> getColumAt(int col){
-        List<Double> columna= new LinkedList<Double>();
-        for(int i=0;i<datos.size();i++){
-            columna.add(datos.get(i).getElement(col));
+        List<Double> columna= new LinkedList<>();
+        for (Row dato : datos) {
+            columna.add(dato.getElement(col));
         }
         return columna;
     }

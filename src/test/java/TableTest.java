@@ -23,17 +23,17 @@ class TableTest {
     }
 
     @Test
-    void getNumFilas() throws FileNotFoundException {
+    void getNumFilas() {
         assertEquals(tabla.getNumFilas(), 25);
     }
 
     @Test
-    void getNumColumnas() throws FileNotFoundException {
+    void getNumColumnas() {
         assertEquals(tabla.getNumColumnas(), 2);
     }
 
     @Test
-    void testGetRowAt() throws FileNotFoundException {
+    void testGetRowAt() {
         Row fila = new Row();
         fila.add("1211");
         fila.add("1802");
@@ -42,7 +42,7 @@ class TableTest {
     }
 
     @Test
-    void testGetColumAt() throws FileNotFoundException {
+    void testGetColumAt() {
         assertEquals(tabla.getColumAt(0).get(0),1211.0);
         assertEquals(tabla.getColumAt(0).get(1), 1345.0);
         assertEquals(tabla.getColumAt(0).get(2), 1422.0);

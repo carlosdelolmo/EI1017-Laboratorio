@@ -25,7 +25,7 @@ public class CSV {
     }
 
     private BufferedReader initialize(String nombreFichero) throws FileNotFoundException {
-        BufferedReader br = new BufferedReader(new FileReader(new File(nombreFichero)));
+        BufferedReader br = new BufferedReader(new FileReader(nombreFichero));
         try {
             line = br.readLine();
             campos = line.split(",");
