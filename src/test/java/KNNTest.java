@@ -1,5 +1,7 @@
 import csv.CSV;
+import distance.EuclideanDistance;
 import estimate.KNN;
+import interfaces.Distance;
 import org.junit.jupiter.api.Test;
 import row.RowWithLabel;
 import table.TableWithLabels;
@@ -12,11 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class KNNTest {
 
+    Distance distance = new EuclideanDistance();
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
     String fName = "src"+sep+"main"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
-    KNN knn = new KNN();
+    KNN knn = new KNN(distance);
 
     KNNTest() throws FileNotFoundException {
     }

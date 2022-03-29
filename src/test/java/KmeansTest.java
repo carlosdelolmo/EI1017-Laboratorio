@@ -1,5 +1,7 @@
 import csv.CSV;
+import distance.EuclideanDistance;
 import estimate.Kmeans;
+import interfaces.Distance;
 import org.junit.jupiter.api.Test;
 import row.RowWithLabel;
 import table.TableWithLabels;
@@ -11,11 +13,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KmeansTest {
+    Distance distance = new EuclideanDistance();
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
     String fName = "src"+sep+"main"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
-    Kmeans algoritmo = new Kmeans(5,25, (long) 1244325235235.);
+    Kmeans algoritmo = new Kmeans(5,25, (long) 1244325235235. , distance);
 
     KmeansTest() throws FileNotFoundException {
     }

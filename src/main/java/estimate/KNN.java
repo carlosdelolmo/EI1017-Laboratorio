@@ -1,13 +1,19 @@
 package estimate;
 
+import distance.EuclideanDistance;
 import interfaces.Algorithm;
+import interfaces.Distance;
 import table.TableWithLabels;
 
 import java.util.List;
 
 public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
     private TableWithLabels tabla;
-    public KNN() {}
+    private Distance distance;
+    public KNN(){}
+    public KNN(Distance distance) {
+        this.distance = distance;
+    }
     public void train(TableWithLabels tablaAEstudiar){
         tabla = tablaAEstudiar;
     }
@@ -24,7 +30,6 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
         for(int i = 0; i < tabla.getNumFilas(); i++){
             List<Double> elementoFichero = tabla.getRowAt(i).getData();
             Double distancia = metricaEuclidea(sample, elementoFichero);
-            // listaDistancias.add(distancia);
             if(minimo == null) minimo = distancia;
             else if(distancia < minimo){
                 minimo = distancia;
@@ -34,12 +39,6 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String> {
         return fila;
     }
     private Double metricaEuclidea(List<Double> nuevaMuestra, List<Double> elementoFichero){
-        Double sumatorio = 0.0;
-        for(int i = 0; i < nuevaMuestra.size(); i++){
-            Double resta = (nuevaMuestra.get(i) - elementoFichero.get(i));
-            resta = resta * resta;
-            sumatorio += resta;
-        }
-        return (Double) Math.sqrt(sumatorio);
+        return distance.calculateDistance(nuevaMuestra, elementoFichero);
     }
 }

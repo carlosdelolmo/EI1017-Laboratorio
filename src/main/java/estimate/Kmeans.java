@@ -1,6 +1,7 @@
 package estimate;
 
 import interfaces.Algorithm;
+import interfaces.Distance;
 import row.Row;
 import table.Table;
 import table.TableWithLabels;
@@ -15,16 +16,18 @@ public class Kmeans implements Algorithm<Table, Row, String > {
     final private int NUMBER_CLUSTERS;
     final private int ITERATIONS;
     final private long SEED;
+    private Distance distance;
     private TableWithLabels t;
     private List < List < Double >> representantes;
     private List < String > etiquetas;
     private List < Integer > asignaciones;
 
-    public Kmeans(int numberClusters, int iterations, long seed) {
+    public Kmeans(int numberClusters, int iterations, long seed, Distance distance) {
         validarDatosEntrada(numberClusters, iterations);
         this.NUMBER_CLUSTERS = numberClusters;
         this.ITERATIONS = iterations;
         this.SEED = seed;
+        this.distance = distance;
     }
 
     public void train(Table datos) {
@@ -86,13 +89,7 @@ public class Kmeans implements Algorithm<Table, Row, String > {
     }
 
     private Double metricaEuclidea(List < Double > muestra1, List < Double > muestra2) {
-        Double sumatorio = 0.0;
-        for (int i = 0; i < muestra1.size(); i++) {
-            Double resta = (muestra1.get(i) - muestra2.get(i));
-            resta = resta * resta;
-            sumatorio += resta;
-        }
-        return (Double) Math.sqrt(sumatorio);
+        return distance.calculateDistance(muestra1, muestra2);
     }
 
     private void calcularCentroides() {
