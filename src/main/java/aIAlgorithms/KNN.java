@@ -31,7 +31,7 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
         int fila = 0;
         for(int i = 0; i < tabla.getNumFilas(); i++){
             List<Double> elementoFichero = tabla.getRowAt(i).getData();
-            Double distancia = metrica(sample, elementoFichero);
+            Double distancia = distance.calculateDistance(sample, elementoFichero);
             if(minimo == null) minimo = distancia;
             else if(distancia < minimo){
                 minimo = distancia;
@@ -39,9 +39,6 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
             }
         }
         return fila;
-    }
-    private Double metrica(List<Double> nuevaMuestra, List<Double> elementoFichero){
-        return distance.calculateDistance(nuevaMuestra, elementoFichero);
     }
 
     @Override

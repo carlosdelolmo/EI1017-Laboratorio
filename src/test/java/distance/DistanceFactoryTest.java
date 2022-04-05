@@ -21,7 +21,6 @@ class DistanceFactoryTest {
 
     @Test
     void getDistance() {
-
         DistanceFactory factoria = new DistanceFactory();
         Distance distanciaManhattanFactoria = factoria.getDistance(DistanceType.MANHATTAN);
         Distance distanciaEucliedanFactoria = factoria.getDistance(DistanceType.EUCLIDEAN);
