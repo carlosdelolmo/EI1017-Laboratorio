@@ -79,7 +79,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
         for (int j = 0; j < representantes.size(); j++) {
             List < Double > actual = representantes.get(j);
             if (actual.size() > 0) {
-                double dist = metricaEuclidea(fila.getData(), representantes.get(j));
+                double dist = metrica(fila.getData(), representantes.get(j));
                 if (min_dist > dist || min_dist == -1.0) {
                     min_dist = dist;
                     indice_grupo = j;
@@ -89,7 +89,7 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
         return indice_grupo;
     }
 
-    private Double metricaEuclidea(List < Double > muestra1, List < Double > muestra2) {
+    private Double metrica(List < Double > muestra1, List < Double > muestra2) {
         return distance.calculateDistance(muestra1, muestra2);
     }
 

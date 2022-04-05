@@ -1,5 +1,7 @@
 package aIAlgorithms;
 
+import distance.DistanceFactory;
+import distance.DistanceType;
 import interfaces.Algorithm;
 import interfaces.Distance;
 import interfaces.DistanceClient;
@@ -11,8 +13,8 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
     private TableWithLabels tabla;
     private Distance distance;
 
-    public KNN(Distance distance) {
-        this.distance = distance;
+    public KNN(Distance distancia) {
+        this.distance = distancia;
     }
     public void train(TableWithLabels tablaAEstudiar){
         tabla = tablaAEstudiar;
@@ -29,7 +31,7 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
         int fila = 0;
         for(int i = 0; i < tabla.getNumFilas(); i++){
             List<Double> elementoFichero = tabla.getRowAt(i).getData();
-            Double distancia = metricaEuclidea(sample, elementoFichero);
+            Double distancia = metrica(sample, elementoFichero);
             if(minimo == null) minimo = distancia;
             else if(distancia < minimo){
                 minimo = distancia;
@@ -38,7 +40,7 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
         }
         return fila;
     }
-    private Double metricaEuclidea(List<Double> nuevaMuestra, List<Double> elementoFichero){
+    private Double metrica(List<Double> nuevaMuestra, List<Double> elementoFichero){
         return distance.calculateDistance(nuevaMuestra, elementoFichero);
     }
 
