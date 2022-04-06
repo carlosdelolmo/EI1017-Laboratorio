@@ -1,7 +1,5 @@
 package aIAlgorithms;
 
-import distance.DistanceFactory;
-import distance.DistanceType;
 import interfaces.Algorithm;
 import interfaces.Distance;
 import interfaces.DistanceClient;

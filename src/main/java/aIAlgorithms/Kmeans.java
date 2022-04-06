@@ -20,7 +20,6 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     private Distance distance;
     private TableWithLabels t;
     private List < List < Double >> representantes;
-    // private List < String > etiquetas;
     private List < Integer > asignaciones;
 
     public Kmeans(int numberClusters, int iterations, long seed, Distance distance) {
