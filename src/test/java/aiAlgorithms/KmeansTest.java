@@ -1,3 +1,5 @@
+package aiAlgorithms;
+
 import csv.CSV;
 import distance.EuclideanDistance;
 import distance.ManhattanDistance;

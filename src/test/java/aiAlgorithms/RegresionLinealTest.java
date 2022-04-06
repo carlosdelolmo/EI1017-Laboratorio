@@ -1,3 +1,5 @@
+package aiAlgorithms;
+
 import csv.CSV;
 import aIAlgorithms.RegresionLineal;
 import org.junit.jupiter.api.Test;

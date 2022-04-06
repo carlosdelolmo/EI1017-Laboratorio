@@ -1,3 +1,5 @@
+package aiAlgorithms;
+
 import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;

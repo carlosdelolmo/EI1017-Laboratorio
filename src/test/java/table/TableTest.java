@@ -1,3 +1,5 @@
+package table;
+
 import csv.CSV;
 import org.junit.jupiter.api.Test;
 import row.Row;
