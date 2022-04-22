@@ -1,6 +1,6 @@
 package interfaces;
 
-import MVC.Observer;
+import mvc.Observer;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
-package MVC;
+package mvc;
 
 import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;
 import interfaces.ModelInterface;
-import table.Table;
 import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
