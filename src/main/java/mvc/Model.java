@@ -11,31 +11,44 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Model implements ModelInterface {
-    Observer observer;
+    View view;
+    public Model(){}
+    public void setView(View view) {
+        this.view = view;
+    }
+    public View getObserver() {
+        return view;
+    }
     KNN algorithm = new KNN(new EuclideanDistance());
     TableWithLabels table = null;
-    List<Observer> observerList = new LinkedList<Observer>();
+    List<View> viewList = new LinkedList<View>();
     public int getNumRows(){
         return table.getNumFilas();
     }
-    public void notifyObservers(){
-        for(Observer obs : observerList){
-            obs.newDataIsLoaded();
+    public void notifyViews(){
+        for(View v : viewList){
+            v.newDataIsLoaded();
         }
     }
+    public int getNumFilas(){return table.getNumFilas();}
 
     @Override
     public List<Double> getData(int i) {
         return table.getRowAt(i).getData();
     }
 
-    public void loadData(String path) throws FileNotFoundException {
+    public void loadData(String path) {
+        System.out.println("Ruta: " + path);
         CSV csv = new CSV();
-        table = (TableWithLabels) csv.readTable(path);
-        notifyObservers();
+        try {
+            table = (TableWithLabels) csv.readTableWithLabels(path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        notifyViews();
     }
-    public void registerObserver(Observer obs){
-        observerList.add(obs);
+    public void registerView(View v){
+        viewList.add(v);
     }
     public void estimateParams(){
         algorithm.train(table);

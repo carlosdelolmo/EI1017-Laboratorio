@@ -1,21 +1,20 @@
 package mvc;
 
 import interfaces.ControllerInterface;
+import javafx.stage.FileChooser;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.FileSystemNotFoundException;
 
 public class Controller implements ControllerInterface {
     private Model model;
-    private Observer observer;
-    public Controller(Model model, Observer observer){
+    private View view;
+    public Controller(){}
+    public Controller(Model model, View view){
         this.model = model;
-        this.observer = observer;
+        this.view = view;
     }
-    public void setObserver(Observer observer){
-        this.observer = observer;
+    public void setView(View view){
+        this.view = view;
     }
 
     public void setModel(Model model) {
@@ -26,22 +25,17 @@ public class Controller implements ControllerInterface {
         return model;
     }
 
-    public Observer getObserver() {
-        return observer;
+    public View getObserver() {
+        return view;
     }
-    public void loadData() throws FileNotFoundException {
-        final JFileChooser fileChooser = null;
-        File file = null;
-        int fileId = fileChooser.showOpenDialog(null);
-        if(fileId == JFileChooser.APPROVE_OPTION){
-            file = fileChooser.getSelectedFile();
-        }else{
-            throw new FileSystemNotFoundException();
-        }
+    public void loadData() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+       if(file!=null)
         model.loadData(file.getAbsolutePath());
     }
     public void estimateParams(){
         model.estimateParams();
-        observer.disableEstimateParams();
+        view.disableEstimateParams();
     }
 }

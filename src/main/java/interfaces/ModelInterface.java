@@ -1,13 +1,13 @@
 package interfaces;
 
-import mvc.Observer;
+import mvc.View;
 
 import java.util.List;
 
 public interface ModelInterface {
-    void registerObserver(Observer obs);
+    void registerView(View obs);
     int getNumRows();
-    void notifyObservers();
+    void notifyViews();
 
     List<Double> getData(int i);
 }
