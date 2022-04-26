@@ -70,11 +70,7 @@ public class View implements ObserverInterface {
 
     }
     private void setActions(){
-        btnLoad.setOnAction(actionEvent -> {
-            controller.loadData();
-            newDataIsLoaded();
-            System.out.println("Filas: " + model.getNumFilas());
-        });
+        btnLoad.setOnAction(actionEvent -> controller.loadData());
     }
     private void showLoadedData(){
     }
