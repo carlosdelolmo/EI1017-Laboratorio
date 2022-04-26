@@ -19,6 +19,11 @@
             <artifactId>javafx-controls</artifactId>
             <version>15</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>15</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -28,7 +33,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>es.uji.belfern.main.Main</mainClass>
+                    <mainClass>prueba</mainClass>
                 </configuration>
             </plugin>
         </plugins>
