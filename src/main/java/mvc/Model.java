@@ -38,7 +38,7 @@ public class Model implements ModelInterface {
     }
 
     public void loadData(String path) {
-        System.out.println("Ruta: " + path);
+        // System.out.println("Ruta: " + path);
         CSV csv = new CSV();
         try {
             table = (TableWithLabels) csv.readTableWithLabels(path);
