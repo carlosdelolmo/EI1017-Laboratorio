@@ -54,4 +54,7 @@ public class Model implements ModelInterface {
         algorithm.train(table);
         // Algo más que nos permita estimar los KNN
     }
+    public List<String> getHeaeders(){
+        return table.getHeader();
+    }
 }

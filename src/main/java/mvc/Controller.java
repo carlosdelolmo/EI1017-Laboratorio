@@ -36,6 +36,5 @@ public class Controller implements ControllerInterface {
     }
     public void estimateParams(){
         model.estimateParams();
-        view.disableEstimateParams();
     }
 }
