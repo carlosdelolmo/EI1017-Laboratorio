@@ -182,10 +182,9 @@ public class View implements ObserverInterface {
         // series1.getData().add(new XYChart.Data(4.2, 193.2));
         // scatterChart.getData().add(series1);
         for(int i = 0; i < data.size(); i++){
-
             series1.getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(1)));
         }
-        scatterChart.getData().add(series1);
+        scatterChart.getData().addAll(series1);
 
     }
 }
