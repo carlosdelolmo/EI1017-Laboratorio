@@ -125,16 +125,14 @@ public class View implements ObserverInterface {
 
         ScatterChart scatterChart = createScatterChart(xAxis,yAxis,headerList.get(0), headerList.get(headerList.size()-1));
         listaInserts.add(scatterChart);
-        // scatterChart.getData().add(new XYChart.Data(1.2,3.5));
-        // XYChart.Series series1 = new XYChart.Series();
-        // series1.setName("Equities");
-        // series1.getData().add(new XYChart.Data(4.2, 193.2));
-        // scatterChart.getData().add(series1);
+
         List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1);
         List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
         GridPane gridPane = createGridPane();
 
         insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
+
+        insertDataIntoChart(scatterChart);
 
         stage.setScene(new Scene(gridPane));
         stage.show();
@@ -178,5 +176,16 @@ public class View implements ObserverInterface {
             }
         }*/
     }
+    private void insertDataIntoChart(ScatterChart scatterChart){
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Datos");
+        // series1.getData().add(new XYChart.Data(4.2, 193.2));
+        // scatterChart.getData().add(series1);
+        for(int i = 0; i < data.size(); i++){
 
+            series1.getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(1)));
+        }
+        scatterChart.getData().add(series1);
+
+    }
 }

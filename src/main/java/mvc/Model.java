@@ -57,4 +57,8 @@ public class Model implements ModelInterface {
     public List<String> getHeaeder(){
         return table.getHeader();
     }
+    public int numLabel(int i){
+        return table.getNumLabel(i);
+    }
+
 }
