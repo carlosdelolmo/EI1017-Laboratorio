@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import javax.swing.plaf.basic.BasicCheckBoxUI;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -177,14 +178,21 @@ public class View implements ObserverInterface {
         }*/
     }
     private void insertDataIntoChart(ScatterChart scatterChart){
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Datos");
+        // XYChart.Series series1 = new XYChart.Series();
+        // series1.setName("Datos");
+        List<XYChart.Series> seriesList = new LinkedList<>();
+        for(int i = 0; i < model.getNumberOfLabels(); i++){
+            seriesList.add(new XYChart.Series());
+            seriesList.get(i).setName(model.getLabelFromList(i));
+        }
         // series1.getData().add(new XYChart.Data(4.2, 193.2));
         // scatterChart.getData().add(series1);
         for(int i = 0; i < data.size(); i++){
-            series1.getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(1)));
+            // series1.getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(1)));
+            int labelIndex = model.getIndexOfLabel(i);
+            seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(3)));
         }
-        scatterChart.getData().addAll(series1);
+        scatterChart.getData().addAll(seriesList);
 
     }
 }

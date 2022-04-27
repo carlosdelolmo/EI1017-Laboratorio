@@ -57,5 +57,12 @@ public class Model implements ModelInterface {
     public List<String> getHeaeder(){
         return table.getHeader();
     }
+    public int getIndexOfLabel(int indexOfRow){
+        return table.getIndexOfLabel(indexOfRow);
+    }
+    public String getLabelFromList(int indexInList){
+        return table.getLabelsList().get(indexInList);
+    }
+    public int getNumberOfLabels(){return table.getNumberOfLabels();}
 
 }

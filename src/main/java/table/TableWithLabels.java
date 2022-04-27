@@ -1,18 +1,20 @@
 package table;
 
-import row.Row;
 import row.RowWithLabel;
 
 import java.util.*;
 
 public class TableWithLabels extends Table {
     public TableWithLabels(){}
-    private List<String> labels;
+    private List<String> labelsList = new LinkedList<>();
     @Override
     public void addRow(String[] palabras){
         RowWithLabel fila = new RowWithLabel();
         super.getRowToInsert(Arrays.copyOfRange(palabras, 0, palabras.length - 1), fila);
-        fila.addLabel(palabras[palabras.length - 1]);
+        String label = palabras[palabras.length - 1];
+        fila.addLabel(label);
+        if(!labelsList.contains(label))
+            labelsList.add(label);
         datos.add(fila);
     }
 
@@ -23,5 +25,13 @@ public class TableWithLabels extends Table {
 
     public RowWithLabel getRowAt(int index){
         return (RowWithLabel) super.getRowAt(index);
+    }
+
+    public int getIndexOfLabel(int indexInTable){
+        return labelsList.indexOf(getRowAt(indexInTable).getLabel());
+    }
+    public int getNumberOfLabels(){return labelsList.size();}
+    public List<String> getLabelsList(){
+        return labelsList;
     }
 }
