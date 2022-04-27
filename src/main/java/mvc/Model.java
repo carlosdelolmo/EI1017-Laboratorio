@@ -2,7 +2,9 @@ package mvc;
 
 import aIAlgorithms.KNN;
 import csv.CSV;
+import distance.DistanceType;
 import distance.EuclideanDistance;
+import interfaces.Distance;
 import interfaces.ModelInterface;
 import table.TableWithLabels;
 
@@ -19,7 +21,6 @@ public class Model implements ModelInterface {
     public View getObserver() {
         return view;
     }
-    KNN algorithm = new KNN(new EuclideanDistance());
     TableWithLabels table = null;
     List<View> viewList = new LinkedList<>();
     public int getNumRows(){
@@ -51,8 +52,9 @@ public class Model implements ModelInterface {
         viewList.add(v);
     }
     public void estimateParams(){
+        KNN algorithm = new KNN(new EuclideanDistance());
         algorithm.train(table);
-        // Algo más que nos permita estimar los KNN
+        // String label = algorithm.estimate(punto);
     }
     public List<String> getHeaeder(){
         return table.getHeader();
@@ -60,9 +62,16 @@ public class Model implements ModelInterface {
     public int getIndexOfLabel(int indexOfRow){
         return table.getIndexOfLabel(indexOfRow);
     }
+    public int getIndexOfLabel(String label){
+        return table.getLabelsList().indexOf(label);
+    }
     public String getLabelFromList(int indexInList){
         return table.getLabelsList().get(indexInList);
     }
     public int getNumberOfLabels(){return table.getNumberOfLabels();}
+
+    public int getIndexOfHeader(String header){
+        return table.getHeader().indexOf(header);
+    }
 
 }

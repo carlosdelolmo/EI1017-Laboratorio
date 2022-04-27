@@ -1,6 +1,8 @@
 package mvc;
 
+import distance.DistanceType;
 import interfaces.ControllerInterface;
+import interfaces.Distance;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -32,13 +34,21 @@ public class Controller implements ControllerInterface {
     public void loadData() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
-       if(file!=null)
-        model.loadData(file.getAbsolutePath());
+       if(file!=null) {
+           model.loadData(file.getAbsolutePath());
+           model.estimateParams();
+       }
     }
     public void estimateParams(){
         model.estimateParams();
     }
     public List<String> getHeaeder(){
         return model.getHeaeder();
+    }
+    public void showLoadedData(){
+        view.showLoadedData();
+    }
+    public void reloadChart(String xValue, String yValue){
+        view.reloadChart(xValue, yValue);
     }
 }

@@ -1,6 +1,8 @@
 package mvc;
 
+import distance.DistanceFactory;
 import distance.DistanceType;
+import interfaces.Distance;
 import interfaces.ObserverInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import javax.swing.plaf.basic.BasicCheckBoxUI;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +30,11 @@ public class View implements ObserverInterface {
     private int numRows;
     private Label descrip;
     private Stage stage;
+    private List<Object> listaInserts = new LinkedList();
+    private GridPane gridPane;
+    final private List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
+    final private List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
+
     public View(Model model, Controller controller){
         this.model = model;
         this.controller = controller;
@@ -90,11 +96,10 @@ public class View implements ObserverInterface {
         setChangeStageButton();
     }
     private void setChangeStageButton(){
-        btnLoad.setOnAction(actionEvent -> showLoadedData());
+        btnLoad.setOnAction(actionEvent -> controller.showLoadedData());
     }
 
-    private void showLoadedData(){
-        List<Object> listaInserts = new LinkedList();
+    public void showLoadedData(){
         List<String> headerList = controller.getHeaeder();
         ObservableList observableHeaderList = FXCollections.observableList(headerList);
 
@@ -127,13 +132,15 @@ public class View implements ObserverInterface {
         ScatterChart scatterChart = createScatterChart(xAxis,yAxis,headerList.get(0), headerList.get(headerList.size()-1));
         listaInserts.add(scatterChart);
 
-        List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1);
-        List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
-        GridPane gridPane = createGridPane();
+        gridPane = createGridPane();
 
         insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
 
-        insertDataIntoChart(scatterChart);
+        insertDataIntoChart(scatterChart, 0, headerList.size()-1);
+
+
+        setXYChangeButton(xSelection, ySelection);
+        setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText(),(DistanceType) distanceSelection.getValue());
 
         stage.setScene(new Scene(gridPane));
         stage.show();
@@ -177,22 +184,50 @@ public class View implements ObserverInterface {
             }
         }*/
     }
-    private void insertDataIntoChart(ScatterChart scatterChart){
-        // XYChart.Series series1 = new XYChart.Series();
-        // series1.setName("Datos");
+    private void insertDataIntoChart(ScatterChart scatterChart, int serieXIndex, int serieYIndex){
+        // System.out.println("SC: " + scatterChart.toString() + " - X index: " + serieXIndex + " - Y index: " + serieYIndex);
         List<XYChart.Series> seriesList = new LinkedList<>();
         for(int i = 0; i < model.getNumberOfLabels(); i++){
             seriesList.add(new XYChart.Series());
             seriesList.get(i).setName(model.getLabelFromList(i));
         }
-        // series1.getData().add(new XYChart.Data(4.2, 193.2));
-        // scatterChart.getData().add(series1);
         for(int i = 0; i < data.size(); i++){
-            // series1.getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(1)));
             int labelIndex = model.getIndexOfLabel(i);
-            seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(0), data.get(i).get(3)));
+            seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(serieXIndex), data.get(i).get(serieYIndex)));
         }
+
         scatterChart.getData().addAll(seriesList);
 
+    }
+    private void setXYChangeButton(ComboBox x, ComboBox y){
+        x.setOnAction(actionEvent -> {
+            controller.reloadChart(x.getValue().toString(), y.getValue().toString());
+        });
+        y.setOnAction(actionEvent -> {
+            controller.reloadChart(x.getValue().toString(), y.getValue().toString());
+        });
+    }
+    public void reloadChart(String xValue, String yValue){
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel(xValue);
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel(yValue);
+
+        ScatterChart scatterChart = createScatterChart(xAxis,yAxis,xValue,yValue);
+        listaInserts.set(6, scatterChart);
+        System.out.println("X: " + xValue + " - Y: " + yValue);
+        insertDataIntoChart(scatterChart, model.getIndexOfHeader(xValue), model.getIndexOfHeader(yValue));
+        gridPane = createGridPane();
+        insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
+        stage.setScene(new Scene(gridPane));
+        stage.show();
+    }
+    public void setEstimateChangeButton(Button button, String textoPunto, DistanceType distance){
+        DistanceFactory distanceFactory = new DistanceFactory();
+        distanceFactory.getDistance(distance);
+        button.setOnAction(actionEvent -> {
+            controller.estimateParams();
+        });
     }
 }
