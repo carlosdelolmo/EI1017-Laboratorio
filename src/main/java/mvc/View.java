@@ -3,10 +3,10 @@ package mvc;
 import distance.DistanceType;
 import interfaces.ObserverInterface;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
@@ -14,12 +14,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import row.Row;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,42 +92,91 @@ public class View implements ObserverInterface {
         btnLoad.setOnAction(actionEvent -> showLoadedData());
     }
 
-    private void showLoadedData(){/*
-        ObservableList<List> dataToShow = FXCollections.observableArrayList(data);
-        ListView listView = new ListView<>(dataToShow);
-        BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(listView);
-        BorderPane.setAlignment(listView, Pos.CENTER);
-        stage.setScene(new Scene(borderPane, 300, 300));
-        stage.show();*/
-        ObservableList headers = FXCollections.observableList(model.getHeaeders());
+    private void showLoadedData(){
+        List<Object> listaInserts = new LinkedList();
+        List<String> headerList = controller.getHeaeder();
+        ObservableList observableHeaderList = FXCollections.observableList(headerList);
+
+        ComboBox xSelection = createComboBox(observableHeaderList, true);
+        listaInserts.add(xSelection);
+
+        ComboBox ySelection = createComboBox(observableHeaderList, false);
+        listaInserts.add(ySelection);
+
         ObservableList distances = FXCollections.observableList(Arrays.asList(DistanceType.values()));
-        ComboBox ySelection = new ComboBox(headers);
-        ComboBox xSelection = new ComboBox(headers);
-        ComboBox distanceSelection = new ComboBox(distances);
+        ComboBox distanceSelection = createComboBox(distances, true);
+
+        listaInserts.add(distanceSelection);
+
         TextField pointToEstimate = new TextField("Punto a estimar");
+        listaInserts.add(pointToEstimate);
+
         Label estimationLabel = new Label("Etiqueta de la estimacion");
+        listaInserts.add(estimationLabel);
+
         Button estimateButton = new Button("Estimar");
+        listaInserts.add(estimateButton);
+
         NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel(xSelection.getAccessibleText());
+
+        NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel(ySelection.getAccessibleText());
-        ScatterChart scatterChart = new ScatterChart(xAxis, yAxis);
-       //  scatterChart.getData().add(new XYChart.Data(1.2,3.5));
+
+        ScatterChart scatterChart = createScatterChart(xAxis,yAxis,headerList.get(0), headerList.get(headerList.size()-1));
+        listaInserts.add(scatterChart);
+        // scatterChart.getData().add(new XYChart.Data(1.2,3.5));
+        // XYChart.Series series1 = new XYChart.Series();
+        // series1.setName("Equities");
+        // series1.getData().add(new XYChart.Data(4.2, 193.2));
+        // scatterChart.getData().add(series1);
+        List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1);
+        List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
+        GridPane gridPane = createGridPane();
+
+        insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
+
+        stage.setScene(new Scene(gridPane));
+        stage.show();
+    }
+    private GridPane createGridPane(){
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(5);
         gridPane.setHgap(5);
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(ySelection, 0, 5);
-        gridPane.add(scatterChart, 5, 5);
-        gridPane.add(xSelection, 10, 10);
-        gridPane.add(distanceSelection, 20, 4);
-        gridPane.add(pointToEstimate, 20, 5);
-        gridPane.add(estimateButton, 20, 6);
-        stage.setScene(new Scene(gridPane));
-        stage.show();
-
+        return gridPane;
+    }
+    private ComboBox createComboBox(ObservableList source, boolean defaultFirst){
+        ComboBox resultado = new ComboBox(source);
+        if(defaultFirst)
+            resultado.getSelectionModel().selectFirst();
+        else
+            resultado.getSelectionModel().selectLast();
+        return resultado;
+    }
+    private ScatterChart createScatterChart(NumberAxis xAxis, NumberAxis yAxis, String xLabel, String yLabel){
+        ScatterChart scatterChart = new ScatterChart(xAxis, yAxis);
+        xAxis.setLabel(xLabel);
+        yAxis.setLabel(yLabel);
+        modifyChartTitle(scatterChart, xLabel, yLabel);
+        return scatterChart;
+    }
+    private void modifyChartTitle(ScatterChart scatterChart, String xLabel, String yLabel){
+        scatterChart.setTitle(xLabel + " vs " + yLabel);
+    }
+    private void insertIntoGridPane(GridPane gridPane, List<Integer> posX, List<Integer> posY, List<Object> listaInserts){
+        for(int a = 0; a < listaInserts.size(); a++){
+            gridPane.add((Node) listaInserts.get(a),posX.get(a),posY.get(a));
+        }
+        /*// Esta solución de bajo nos permitía ahorrarnos la lista posX, ya que observamos que podíamos obtener esos datos
+          // a partir de un bucle anidado, pero nos obligaba a seguir ese algoritmo en caso de añadir nuevos objetos.
+        int a = 0;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j <= i; j++){
+                gridPane.add((Node) listaInserts.get(a),i,posY.get(a++));
+            }
+        }*/
     }
 
 }

@@ -21,7 +21,7 @@ public class Model implements ModelInterface {
     }
     KNN algorithm = new KNN(new EuclideanDistance());
     TableWithLabels table = null;
-    List<View> viewList = new LinkedList<View>();
+    List<View> viewList = new LinkedList<>();
     public int getNumRows(){
         return table.getNumFilas();
     }
@@ -54,7 +54,7 @@ public class Model implements ModelInterface {
         algorithm.train(table);
         // Algo más que nos permita estimar los KNN
     }
-    public List<String> getHeaeders(){
+    public List<String> getHeaeder(){
         return table.getHeader();
     }
 }

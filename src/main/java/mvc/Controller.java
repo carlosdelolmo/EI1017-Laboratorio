@@ -4,6 +4,7 @@ import interfaces.ControllerInterface;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.List;
 
 public class Controller implements ControllerInterface {
     private Model model;
@@ -36,5 +37,8 @@ public class Controller implements ControllerInterface {
     }
     public void estimateParams(){
         model.estimateParams();
+    }
+    public List<String> getHeaeder(){
+        return model.getHeaeder();
     }
 }
