@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Model implements ModelInterface {
     View view;
+    private String estimationLabel;
     public Model(){}
     public void setView(View view) {
         this.view = view;
@@ -26,16 +27,22 @@ public class Model implements ModelInterface {
     public int getNumRows(){
         return table.getNumFilas();
     }
+    public int getNumColumns(){return table.getNumColumnas();}
     public void notifyViews(){
         for(View v : viewList){
             v.newDataIsLoaded();
         }
     }
-    public int getNumFilas(){return table.getNumFilas();}
-
     @Override
     public List<Double> getData(int i) {
         return table.getRowAt(i).getData();
+    }
+    public List<List<Double>> getData(){
+        List<List<Double>> data = new LinkedList<>();
+        for(int i = 0; i < table.getNumFilas(); i++){
+            data.add(getData(i));
+        }
+        return data;
     }
 
     public void loadData(String path) {
@@ -51,10 +58,23 @@ public class Model implements ModelInterface {
     public void registerView(View v){
         viewList.add(v);
     }
-    public void estimateParams(){
-        KNN algorithm = new KNN(new EuclideanDistance());
+
+    private void trainParams(KNN algorithm){
         algorithm.train(table);
-        // String label = algorithm.estimate(punto);
+    }
+    public void estimateParams(List<Double> punto){
+        KNN algorithm = new KNN(new EuclideanDistance());
+        trainParams(algorithm);
+        estimationLabel = algorithm.estimate(punto); // Pero como estimamos el punto? Es una cadena
+        avisarEtiqueta();
+    }
+    private void avisarEtiqueta(){
+        for(View suscrito:viewList){
+            view.estimationDone();
+        }
+    }
+    public String getEstimationLabel(){
+        return estimationLabel;
     }
     public List<String> getHeaeder(){
         return table.getHeader();

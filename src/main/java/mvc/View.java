@@ -2,8 +2,6 @@ package mvc;
 
 import distance.DistanceFactory;
 import distance.DistanceType;
-import interfaces.Distance;
-import interfaces.ObserverInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,7 +20,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class View implements ObserverInterface {
+public class View { // ToDo Implementar interfaces
     private Model model;
     private Controller controller;
     private Button btnLoad;
@@ -46,7 +44,8 @@ public class View implements ObserverInterface {
         model.registerView(this);
     }
 
-    public void paramsAreReady(){}
+    // public void paramsAreReady(){} //ToDo Para qué sirve este método?
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -61,10 +60,12 @@ public class View implements ObserverInterface {
 
     public void newDataIsLoaded() {
         numRows = model.getNumRows();
+        data = model.getData();
+        /*
         for(int i = 0; i < model.getNumRows(); i++) {
             data.add(model.getData(i));
-        }
-        modifyMainView();
+        }*/
+        preTableView();
     }
 
     public void createGUI(Stage primaryStage){
@@ -90,12 +91,12 @@ public class View implements ObserverInterface {
             controller.loadData();
         });
     }
-    private void modifyMainView(){
+    private void preTableView(){
         btnLoad.setText("Ver datos");
         descrip.setText("Filas: " + numRows);
-        setChangeStageButton();
+        setGoToTableButton();
     }
-    private void setChangeStageButton(){
+    private void setGoToTableButton(){
         btnLoad.setOnAction(actionEvent -> controller.showLoadedData());
     }
 
@@ -111,10 +112,10 @@ public class View implements ObserverInterface {
 
         ObservableList distances = FXCollections.observableList(Arrays.asList(DistanceType.values()));
         ComboBox distanceSelection = createComboBox(distances, true);
-
         listaInserts.add(distanceSelection);
 
-        TextField pointToEstimate = new TextField("Punto a estimar");
+        TextField pointToEstimate = new TextField();
+        pointToEstimate.setPromptText("1.0, 2.0, 3.0, 4.0");
         listaInserts.add(pointToEstimate);
 
         Label estimationLabel = new Label("Etiqueta de la estimacion");
@@ -135,9 +136,9 @@ public class View implements ObserverInterface {
         gridPane = createGridPane();
 
         insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
+        // coorX y coorY son unos vectores de enteros que identifican en la posición n, la coordenada 'x' e 'y' en gridPane del elemento n de listaInserts
 
         insertDataIntoChart(scatterChart, 0, headerList.size()-1);
-
 
         setXYChangeButton(xSelection, ySelection);
         setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText(),(DistanceType) distanceSelection.getValue());
@@ -187,11 +188,11 @@ public class View implements ObserverInterface {
     private void insertDataIntoChart(ScatterChart scatterChart, int serieXIndex, int serieYIndex){
         // System.out.println("SC: " + scatterChart.toString() + " - X index: " + serieXIndex + " - Y index: " + serieYIndex);
         List<XYChart.Series> seriesList = new LinkedList<>();
-        for(int i = 0; i < model.getNumberOfLabels(); i++){
+        for(int i = 0; i < model.getNumberOfLabels(); i++){     // Creamos tantas series como distintas etiquetas tenga el fichero csv pasado
             seriesList.add(new XYChart.Series());
             seriesList.get(i).setName(model.getLabelFromList(i));
         }
-        for(int i = 0; i < data.size(); i++){
+        for(int i = 0; i < data.size(); i++){                   // Insertamos en la serie correspondiente el punto
             int labelIndex = model.getIndexOfLabel(i);
             seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(serieXIndex), data.get(i).get(serieYIndex)));
         }
@@ -201,10 +202,10 @@ public class View implements ObserverInterface {
     }
     private void setXYChangeButton(ComboBox x, ComboBox y){
         x.setOnAction(actionEvent -> {
-            controller.reloadChart(x.getValue().toString(), y.getValue().toString());
+            reloadChart(x.getValue().toString(), y.getValue().toString());
         });
         y.setOnAction(actionEvent -> {
-            controller.reloadChart(x.getValue().toString(), y.getValue().toString());
+            reloadChart(x.getValue().toString(), y.getValue().toString());
         });
     }
     public void reloadChart(String xValue, String yValue){
@@ -215,11 +216,11 @@ public class View implements ObserverInterface {
         yAxis.setLabel(yValue);
 
         ScatterChart scatterChart = createScatterChart(xAxis,yAxis,xValue,yValue);
-        listaInserts.set(6, scatterChart);
-        System.out.println("X: " + xValue + " - Y: " + yValue);
-        insertDataIntoChart(scatterChart, model.getIndexOfHeader(xValue), model.getIndexOfHeader(yValue));
-        gridPane = createGridPane();
-        insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
+        listaInserts.set(6, scatterChart); // Insertamos en la posición 6 del vector de Inserts el nuevo gráfico
+        // System.out.println("X: " + xValue + " - Y: " + yValue);
+        insertDataIntoChart(scatterChart, model.getIndexOfHeader(xValue), model.getIndexOfHeader(yValue)); // Le decimos al metodo insertDataIntoChart que queremos
+        gridPane = createGridPane();                                                                       // insertar en scatterChart las opciones que tenemos en xValue
+        insertIntoGridPane(gridPane, coorX, coorY, listaInserts);                                          // e yValue, pero se lo decimos por medio de índices
         stage.setScene(new Scene(gridPane));
         stage.show();
     }
@@ -227,7 +228,17 @@ public class View implements ObserverInterface {
         DistanceFactory distanceFactory = new DistanceFactory();
         distanceFactory.getDistance(distance);
         button.setOnAction(actionEvent -> {
-            controller.estimateParams();
+            controller.estimateParams(getPuntoValue());
         });
+    }
+    private String getPuntoValue(){
+        TextField currentLabel = (TextField) listaInserts.get(3);
+        return currentLabel.getText();
+    }
+    public void estimationDone(){
+        String estimationLabel = model.getEstimationLabel();
+        Label currentLabel = (Label) listaInserts.get(4);
+        currentLabel.setText(estimationLabel);
+        // System.out.println(estimationLabel);
     }
 }
