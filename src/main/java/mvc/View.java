@@ -30,6 +30,7 @@ public class View { // ToDo Implementar interfaces
     private Stage stage;
     private List<Object> listaInserts = new LinkedList();
     private GridPane gridPane;
+    private List<Double> estimatedPoint;
     final private List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
     final private List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
 
@@ -196,9 +197,10 @@ public class View { // ToDo Implementar interfaces
             int labelIndex = model.getIndexOfLabel(i);
             seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(serieXIndex), data.get(i).get(serieYIndex)));
         }
-
         scatterChart.getData().addAll(seriesList);
-
+        if(estimatedPoint != null){
+            insertEstimationSerie();
+        }
     }
     private void setXYChangeButton(ComboBox x, ComboBox y){
         x.setOnAction(actionEvent -> {
@@ -239,6 +241,21 @@ public class View { // ToDo Implementar interfaces
         String estimationLabel = model.getEstimationLabel();
         Label currentLabel = (Label) listaInserts.get(4);
         currentLabel.setText(estimationLabel);
+        estimatedPoint = model.getPunto();
+        insertEstimationSerie();
+        // insertEstimationIntoChart();
         // System.out.println(estimationLabel);
+    }
+     private void insertEstimationSerie(){
+        ScatterChart scatterChart = (ScatterChart) listaInserts.get(6);
+        XYChart.Series newSerie = new XYChart.Series();
+        newSerie.setName("Estimation");
+        ComboBox xSelection = (ComboBox) listaInserts.get(0);
+        ComboBox ySelection = (ComboBox) listaInserts.get(1);
+        System.out.println(xSelection.getValue().toString());
+        Double x = estimatedPoint.get(model.getIndexOfHeader(xSelection.getValue().toString()));
+        Double y = estimatedPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
+        newSerie.getData().add(new XYChart.Data(x,y));
+        scatterChart.getData().add(newSerie);
     }
 }

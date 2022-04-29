@@ -2,9 +2,7 @@ package mvc;
 
 import aIAlgorithms.KNN;
 import csv.CSV;
-import distance.DistanceType;
 import distance.EuclideanDistance;
-import interfaces.Distance;
 import interfaces.ModelInterface;
 import table.TableWithLabels;
 
@@ -15,6 +13,7 @@ import java.util.List;
 public class Model implements ModelInterface {
     View view;
     private String estimationLabel;
+    private List<Double> punto;
     public Model(){}
     public void setView(View view) {
         this.view = view;
@@ -65,10 +64,11 @@ public class Model implements ModelInterface {
     public void estimateParams(List<Double> punto){
         KNN algorithm = new KNN(new EuclideanDistance());
         trainParams(algorithm);
-        estimationLabel = algorithm.estimate(punto); // Pero como estimamos el punto? Es una cadena
-        avisarEtiqueta();
+        estimationLabel = algorithm.estimate(punto);
+        this.punto = punto;
+        estimationDone();
     }
-    private void avisarEtiqueta(){
+    private void estimationDone(){
         for(View suscrito:viewList){
             view.estimationDone();
         }
@@ -76,6 +76,7 @@ public class Model implements ModelInterface {
     public String getEstimationLabel(){
         return estimationLabel;
     }
+    public List<Double> getPunto(){return punto;}
     public List<String> getHeaeder(){
         return table.getHeader();
     }
