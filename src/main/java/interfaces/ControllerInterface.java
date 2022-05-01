@@ -1,8 +1,13 @@
 package interfaces;
 
+import mvc.Model;
+import mvc.View;
+
 import java.io.FileNotFoundException;
 
 public interface ControllerInterface {
-    void loadData() throws FileNotFoundException;
-    void estimateParams();
+    void setView(View view);
+    void setModel(Model model);
+    void loadData();
+    void estimateParams(String puntoAEstimar);
 }

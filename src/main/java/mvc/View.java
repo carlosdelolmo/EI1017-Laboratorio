@@ -2,6 +2,7 @@ package mvc;
 
 import distance.DistanceFactory;
 import distance.DistanceType;
+import interfaces.ViewerInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class View { // ToDo Implementar interfaces
+public class View implements ViewerInterface {
     private Model model;
     private Controller controller;
     private Button btnLoad;
@@ -40,13 +41,13 @@ public class View { // ToDo Implementar interfaces
         model.registerView(this);
     }
     public View(){}
+    @Override
     public void setModel(Model model) {
         this.model = model;
         model.registerView(this);
     }
 
-    // public void paramsAreReady(){} //ToDo Para qué sirve este método?
-
+    @Override
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -58,7 +59,7 @@ public class View { // ToDo Implementar interfaces
     public Controller getController() {
         return controller;
     }
-
+    @Override
     public void newDataIsLoaded() {
         numRows = model.getNumRows();
         data = model.getData();
@@ -68,7 +69,7 @@ public class View { // ToDo Implementar interfaces
         }*/
         preTableView();
     }
-
+    @Override
     public void createGUI(Stage primaryStage){
         this.stage = primaryStage;
         createMainView();
@@ -246,7 +247,7 @@ public class View { // ToDo Implementar interfaces
         // insertEstimationIntoChart();
         // System.out.println(estimationLabel);
     }
-     private void insertEstimationSerie(){
+     private void insertEstimationSerie(){  //ToDo Borrar anterior punto a estimar
         ScatterChart scatterChart = (ScatterChart) listaInserts.get(6);
         XYChart.Series newSerie = new XYChart.Series();
         newSerie.setName("Estimation");

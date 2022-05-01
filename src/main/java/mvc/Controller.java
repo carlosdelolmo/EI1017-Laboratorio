@@ -1,12 +1,13 @@
 package mvc;
 
+import interfaces.ControllerInterface;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Controller { //ToDo interfaz
+public class Controller implements ControllerInterface {
     private Model model;
     private View view;
     public Controller(){}
@@ -14,10 +15,11 @@ public class Controller { //ToDo interfaz
         this.model = model;
         this.view = view;
     }
+    @Override
     public void setView(View view){
         this.view = view;
     }
-
+    @Override
     public void setModel(Model model) {
         this.model = model;
     }
@@ -29,7 +31,7 @@ public class Controller { //ToDo interfaz
     public View getObserver() {
         return view;
     }
-
+    @Override
     public void loadData() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
@@ -37,6 +39,7 @@ public class Controller { //ToDo interfaz
            model.loadData(file.getAbsolutePath());
         }
     }
+    @Override
     public void estimateParams(String punto){
         String[] puntoSplit = punto.split(",");
         // System.out.println(Arrays.stream(puntoSplit).toList().toString());
@@ -54,9 +57,4 @@ public class Controller { //ToDo interfaz
     public void showLoadedData(){
         view.showLoadedData();
     }
-    /*
-    // ToDo Haría falta este método realmente?
-    public void reloadChart(String xValue, String yValue){
-        view.reloadChart(xValue, yValue);
-    }*/
 }
