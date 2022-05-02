@@ -2,7 +2,10 @@ package mvc;
 
 import distance.DistanceFactory;
 import distance.DistanceType;
-import interfaces.ViewerInterface;
+import interfaces.ControllerInterface;
+import interfaces.ModelInterfaceFromView;
+import interfaces.ViewerInterfaceFromController;
+import interfaces.ViewerInterfaceFromModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -21,9 +24,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class View implements ViewerInterface {
-    private Model model;
-    private Controller controller;
+public class View implements ViewerInterfaceFromController, ViewerInterfaceFromModel {
+    private ModelInterfaceFromView model;
+    private ControllerInterface controller;
     private Button btnLoad;
     private List<List<Double>> data = new LinkedList<>();
     private int numRows;
@@ -41,23 +44,21 @@ public class View implements ViewerInterface {
         model.registerView(this);
     }
     public View(){}
-    @Override
     public void setModel(Model model) {
         this.model = model;
         model.registerView(this);
     }
 
-    @Override
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
     public Model getModel() {
-        return model;
+        return (Model) model;
     }
 
     public Controller getController() {
-        return controller;
+        return (Controller) controller;
     }
     @Override
     public void newDataIsLoaded() {
@@ -69,7 +70,6 @@ public class View implements ViewerInterface {
         }*/
         preTableView();
     }
-    @Override
     public void createGUI(Stage primaryStage){
         this.stage = primaryStage;
         createMainView();
@@ -101,9 +101,9 @@ public class View implements ViewerInterface {
     private void setGoToTableButton(){
         btnLoad.setOnAction(actionEvent -> controller.showLoadedData());
     }
-
+    @Override
     public void showLoadedData(){
-        List<String> headerList = controller.getHeaeder();
+        List<String> headerList = controller.getHeader();
         ObservableList observableHeaderList = FXCollections.observableList(headerList);
 
         ComboBox xSelection = createComboBox(observableHeaderList, true);
@@ -231,13 +231,15 @@ public class View implements ViewerInterface {
         DistanceFactory distanceFactory = new DistanceFactory();
         distanceFactory.getDistance(distance);
         button.setOnAction(actionEvent -> {
-            controller.estimateParams(getPuntoValue());
+            controller.estimateParams();
         });
     }
-    private String getPuntoValue(){
+    @Override
+    public String getPuntoValue(){
         TextField currentLabel = (TextField) listaInserts.get(3);
         return currentLabel.getText();
     }
+    @Override
     public void estimationDone(){
         String estimationLabel = model.getEstimationLabel();
         Label currentLabel = (Label) listaInserts.get(4);
@@ -253,7 +255,7 @@ public class View implements ViewerInterface {
         newSerie.setName("Estimation");
         ComboBox xSelection = (ComboBox) listaInserts.get(0);
         ComboBox ySelection = (ComboBox) listaInserts.get(1);
-        System.out.println(xSelection.getValue().toString());
+        // System.out.println(xSelection.getValue().toString());
         Double x = estimatedPoint.get(model.getIndexOfHeader(xSelection.getValue().toString()));
         Double y = estimatedPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
         newSerie.getData().add(new XYChart.Data(x,y));

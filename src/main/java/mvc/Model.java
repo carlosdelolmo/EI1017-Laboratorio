@@ -3,15 +3,17 @@ package mvc;
 import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;
-import interfaces.ModelInterface;
+import interfaces.ModelInterfaceFromController;
+import interfaces.ModelInterfaceFromView;
+import interfaces.ViewerInterfaceFromModel;
 import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Model implements ModelInterface {
-    View view;
+public class Model implements ModelInterfaceFromController, ModelInterfaceFromView {
+    ViewerInterfaceFromModel view;
     private String estimationLabel;
     private List<Double> punto;
     public Model(){}
@@ -19,15 +21,15 @@ public class Model implements ModelInterface {
         this.view = view;
     }
     public View getObserver() {
-        return view;
+        return (View) view;
     }
     TableWithLabels table = null;
     List<View> viewList = new LinkedList<>();
+    @Override
     public int getNumRows(){
         return table.getNumFilas();
     }
     public int getNumColumns(){return table.getNumColumnas();}
-    @Override
     public void notifyViews(){
         for(View v : viewList){
             v.newDataIsLoaded();
@@ -57,7 +59,6 @@ public class Model implements ModelInterface {
         }
         notifyViews();
     }
-    @Override
     public void registerView(View v){
         viewList.add(v);
     }
@@ -77,23 +78,30 @@ public class Model implements ModelInterface {
             view.estimationDone();
         }
     }
+    @Override
     public String getEstimationLabel(){
         return estimationLabel;
     }
+    @Override
     public List<Double> getPunto(){return punto;}
-    public List<String> getHeaeder(){
+    public List<String> getHeader(){
         return table.getHeader();
     }
+    @Override
     public int getIndexOfLabel(int indexOfRow){
         return table.getIndexOfLabel(indexOfRow);
     }
+    @Override
     public int getIndexOfLabel(String label){
         return table.getLabelsList().indexOf(label);
     }
+    @Override
     public String getLabelFromList(int indexInList){
         return table.getLabelsList().get(indexInList);
     }
+    @Override
     public int getNumberOfLabels(){return table.getNumberOfLabels();}
+    @Override
     public int getIndexOfHeader(String header){
         return table.getHeader().indexOf(header);
     }

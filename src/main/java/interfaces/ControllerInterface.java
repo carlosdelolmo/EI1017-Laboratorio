@@ -4,10 +4,11 @@ import mvc.Model;
 import mvc.View;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public interface ControllerInterface {
-    void setView(View view);
-    void setModel(Model model);
     void loadData();
-    void estimateParams(String puntoAEstimar);
+    void estimateParams();
+    List<String> getHeader();
+    void showLoadedData();
 }

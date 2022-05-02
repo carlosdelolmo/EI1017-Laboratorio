@@ -1,6 +1,8 @@
 package mvc;
 
 import interfaces.ControllerInterface;
+import interfaces.ModelInterfaceFromController;
+import interfaces.ViewerInterfaceFromController;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -8,28 +10,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Controller implements ControllerInterface {
-    private Model model;
-    private View view;
+    private ModelInterfaceFromController model;
+    private ViewerInterfaceFromController view;
     public Controller(){}
     public Controller(Model model, View view){
         this.model = model;
         this.view = view;
     }
-    @Override
     public void setView(View view){
         this.view = view;
     }
-    @Override
     public void setModel(Model model) {
         this.model = model;
     }
 
     public Model getModel() {
-        return model;
+        return (Model) model;
     }
 
     public View getObserver() {
-        return view;
+        return (View) view;
     }
     @Override
     public void loadData() {
@@ -40,7 +40,8 @@ public class Controller implements ControllerInterface {
         }
     }
     @Override
-    public void estimateParams(String punto){
+    public void estimateParams(){
+        String punto = view.getPuntoValue();
         String[] puntoSplit = punto.split(",");
         // System.out.println(Arrays.stream(puntoSplit).toList().toString());
         if(puntoSplit.length == model.getNumColumns() - 1){
@@ -51,9 +52,11 @@ public class Controller implements ControllerInterface {
             model.estimateParams(listaCoor);
         }
     }
-    public List<String> getHeaeder(){
-        return model.getHeaeder();
+    @Override
+    public List<String> getHeader(){
+        return model.getHeader();
     }
+    @Override
     public void showLoadedData(){
         view.showLoadedData();
     }
