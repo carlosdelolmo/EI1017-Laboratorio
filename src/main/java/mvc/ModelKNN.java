@@ -10,26 +10,26 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Model implements ModelInterface {
+public class ModelKNN implements ModelInterface {
     private ViewInterface view;
     private String estimationLabel;
     private List<Double> punto;
-    public Model(){}
-    public void setView(View view) {
+    public ModelKNN(){}
+    public void setView(ViewKNN view) {
         this.view = view;
     }
-    public View getObserver() {
-        return (View) view;
+    public ViewKNN getObserver() {
+        return (ViewKNN) view;
     }
     TableWithLabels table = null;
-    List<View> viewList = new LinkedList<>();
+    List<ViewKNN> viewList = new LinkedList<>();
     @Override
     public int getNumRows(){
         return table.getNumFilas();
     }
     public int getNumColumns(){return table.getNumColumnas();}
     public void notifyViews(){
-        for(View v : viewList){
+        for(ViewKNN v : viewList){
             v.newDataIsLoaded();
         }
     }
@@ -57,7 +57,7 @@ public class Model implements ModelInterface {
         }
         notifyViews();
     }
-    public void registerView(View v){
+    public void registerView(ViewKNN v){
         viewList.add(v);
     }
     private void trainParams(KNN algorithm){
@@ -72,7 +72,7 @@ public class Model implements ModelInterface {
         estimationDone();
     }
     private void estimationDone(){
-        for(View suscrito:viewList){
+        for(ViewKNN suscrito:viewList){
             view.estimationDone();
         }
     }

@@ -3,9 +3,9 @@ package javaFx;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mvc.Controller;
-import mvc.Model;
-import mvc.View;
+import mvc.ControllerKNN;
+import mvc.ModelKNN;
+import mvc.ViewKNN;
 
 public class Main extends Application {
 
@@ -15,9 +15,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Controller controller = new Controller();
-        Model model = new Model();
-        View view = new View(model, controller);
+        ControllerKNN controller = new ControllerKNN();
+        ModelKNN model = new ModelKNN();
+        ViewKNN view = new ViewKNN(model, controller);
         controller.setModel(model);
         controller.setView(view);
         model.setView(view);

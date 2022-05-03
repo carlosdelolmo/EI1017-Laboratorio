@@ -7,27 +7,27 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Controller implements ControllerInterface {
+public class ControllerKNN implements ControllerInterface {
     private ModelInterface model;
     private ViewInterface view;
-    public Controller(){}
-    public Controller(Model model, View view){
+    public ControllerKNN(){}
+    public ControllerKNN(ModelKNN model, ViewKNN view){
         this.model = model;
         this.view = view;
     }
-    public void setView(View view){
+    public void setView(ViewKNN view){
         this.view = view;
     }
-    public void setModel(Model model) {
+    public void setModel(ModelKNN model) {
         this.model = model;
     }
 
-    public Model getModel() {
-        return (Model) model;
+    public ModelKNN getModel() {
+        return (ModelKNN) model;
     }
 
-    public View getObserver() {
-        return (View) view;
+    public ViewKNN getObserver() {
+        return (ViewKNN) view;
     }
     @Override
     public void loadData() {
@@ -44,8 +44,8 @@ public class Controller implements ControllerInterface {
         // System.out.println(Arrays.stream(puntoSplit).toList().toString());
         if(puntoSplit.length == model.getNumColumns() - 1){
             List<Double> listaCoor = new LinkedList<>();
-            for(int i = 0; i < puntoSplit.length; i++) {
-                listaCoor.add(Double.parseDouble(puntoSplit[i]));
+            for (String s : puntoSplit) {
+                listaCoor.add(Double.parseDouble(s));
             }
             model.estimateParams(listaCoor);
         }

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class View implements ViewInterface {
+public class ViewKNN implements ViewInterface {
     private ModelInterface model;
     private ControllerInterface controller;
     private Button btnLoad;
@@ -32,30 +32,30 @@ public class View implements ViewInterface {
     private List<Object> listaInserts = new LinkedList();
     private GridPane gridPane;
     private List<Double> estimatedPoint;
-    final private List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
-    final private List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
+    private final List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
+    private final List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
 
-    public View(Model model, Controller controller){
+    public ViewKNN(ModelKNN model, ControllerKNN controller){
         this.model = model;
         this.controller = controller;
         model.registerView(this);
     }
-    public View(){}
-    public void setModel(Model model) {
+    public ViewKNN(){}
+    public void setModel(ModelKNN model) {
         this.model = model;
         model.registerView(this);
     }
 
-    public void setController(Controller controller) {
+    public void setController(ControllerKNN controller) {
         this.controller = controller;
     }
 
-    public Model getModel() {
-        return (Model) model;
+    public ModelKNN getModel() {
+        return (ModelKNN) model;
     }
 
-    public Controller getController() {
-        return (Controller) controller;
+    public ControllerKNN getController() {
+        return (ControllerKNN) controller;
     }
     @Override
     public void newDataIsLoaded() {
@@ -175,14 +175,6 @@ public class View implements ViewInterface {
         for(int a = 0; a < listaInserts.size(); a++){
             gridPane.add((Node) listaInserts.get(a),posX.get(a),posY.get(a));
         }
-        /*// Esta solución de bajo nos permitía ahorrarnos la lista posX, ya que observamos que podíamos obtener esos datos
-          // a partir de un bucle anidado, pero nos obligaba a seguir ese algoritmo en caso de añadir nuevos objetos.
-        int a = 0;
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j <= i; j++){
-                gridPane.add((Node) listaInserts.get(a),i,posY.get(a++));
-            }
-        }*/
     }
     private void insertDataIntoChart(ScatterChart scatterChart, int serieXIndex, int serieYIndex){
         // System.out.println("SC: " + scatterChart.toString() + " - X index: " + serieXIndex + " - Y index: " + serieYIndex);
