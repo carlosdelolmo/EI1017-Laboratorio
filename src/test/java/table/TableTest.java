@@ -13,7 +13,7 @@ class TableTest {
 
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
-    String fName = "src"+sep+"main"+sep+ "miles_dollars.csv";
+    String fName = "data"+sep+ "miles_dollars.csv";
     Table tabla = fichero.readTable(fName);
 
     TableTest() throws FileNotFoundException {

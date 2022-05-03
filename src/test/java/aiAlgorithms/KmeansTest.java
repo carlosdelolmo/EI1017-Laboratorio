@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class KmeansTest {
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
-    String fName = "src"+sep+"main"+sep+ "iris.csv";
+    String fName = "data"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
     Distance euclideanDistance = new EuclideanDistance();
     Distance manhattanDistance = new ManhattanDistance();

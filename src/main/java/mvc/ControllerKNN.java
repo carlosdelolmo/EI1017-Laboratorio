@@ -1,5 +1,6 @@
 package mvc;
 
+import distance.DistanceFactory;
 import interfaces.*;
 import javafx.stage.FileChooser;
 
@@ -22,13 +23,6 @@ public class ControllerKNN implements ControllerInterface {
         this.model = model;
     }
 
-    public ModelKNN getModel() {
-        return (ModelKNN) model;
-    }
-
-    public ViewKNN getObserver() {
-        return (ViewKNN) view;
-    }
     @Override
     public void loadData() {
         FileChooser fileChooser = new FileChooser();
@@ -38,7 +32,7 @@ public class ControllerKNN implements ControllerInterface {
         }
     }
     @Override
-    public void estimateParams(){
+    public void estimateParams(Distance distance){
         String punto = view.getPuntoValue();
         String[] puntoSplit = punto.split(",");
         // System.out.println(Arrays.stream(puntoSplit).toList().toString());
@@ -47,15 +41,7 @@ public class ControllerKNN implements ControllerInterface {
             for (String s : puntoSplit) {
                 listaCoor.add(Double.parseDouble(s));
             }
-            model.estimateParams(listaCoor);
+            model.estimateParams(listaCoor, distance);
         }
-    }
-    @Override
-    public List<String> getHeader(){
-        return model.getHeader();
-    }
-    @Override
-    public void showLoadedData(){
-        view.showLoadedData();
     }
 }

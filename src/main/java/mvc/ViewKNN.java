@@ -31,7 +31,7 @@ public class ViewKNN implements ViewInterface {
     private Stage stage;
     private List<Object> listaInserts = new LinkedList();
     private GridPane gridPane;
-    private List<Double> estimatedPoint;
+    private List<Double> queryPoint;
     private final List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
     private final List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
 
@@ -50,13 +50,13 @@ public class ViewKNN implements ViewInterface {
         this.controller = controller;
     }
 
-    public ModelKNN getModel() {
+    /* public ModelKNN getModel() {
         return (ModelKNN) model;
     }
 
     public ControllerKNN getController() {
         return (ControllerKNN) controller;
-    }
+    }*/
     @Override
     public void newDataIsLoaded() {
         numRows = model.getNumRows();
@@ -65,7 +65,8 @@ public class ViewKNN implements ViewInterface {
         for(int i = 0; i < model.getNumRows(); i++) {
             data.add(model.getData(i));
         }*/
-        preTableView();
+        // preTableView();
+        showLoadedData();
     }
     public void createGUI(Stage primaryStage){
         this.stage = primaryStage;
@@ -96,11 +97,11 @@ public class ViewKNN implements ViewInterface {
         setGoToTableButton();
     }
     private void setGoToTableButton(){
-        btnLoad.setOnAction(actionEvent -> controller.showLoadedData());
+        btnLoad.setOnAction(actionEvent -> showLoadedData());
     }
     @Override
     public void showLoadedData(){
-        List<String> headerList = controller.getHeader();
+        List<String> headerList = model.getHeader();
         ObservableList observableHeaderList = FXCollections.observableList(headerList);
 
         ComboBox xSelection = createComboBox(observableHeaderList, true);
@@ -188,7 +189,7 @@ public class ViewKNN implements ViewInterface {
             seriesList.get(labelIndex).getData().add(new XYChart.Data(data.get(i).get(serieXIndex), data.get(i).get(serieYIndex)));
         }
         scatterChart.getData().addAll(seriesList);
-        if(estimatedPoint != null){
+        if(queryPoint != null){
             insertEstimationSerie();
         }
     }
@@ -216,11 +217,11 @@ public class ViewKNN implements ViewInterface {
         stage.setScene(new Scene(gridPane));
         stage.show();
     }
+
     public void setEstimateChangeButton(Button button, String textoPunto, DistanceType distance){
         DistanceFactory distanceFactory = new DistanceFactory();
-        distanceFactory.getDistance(distance);
         button.setOnAction(actionEvent -> {
-            controller.estimateParams();
+            controller.estimateParams(distanceFactory.getDistance(distance));
         });
     }
     @Override
@@ -232,8 +233,8 @@ public class ViewKNN implements ViewInterface {
     public void estimationDone(){
         String estimationLabel = model.getEstimationLabel();
         Label currentLabel = (Label) listaInserts.get(4);
-        currentLabel.setText(estimationLabel);
-        estimatedPoint = model.getPunto();
+        currentLabel.setText("Estimación: " + estimationLabel);
+        queryPoint = model.getPunto();
         insertEstimationSerie();
         // insertEstimationIntoChart();
         // System.out.println(estimationLabel);
@@ -245,8 +246,8 @@ public class ViewKNN implements ViewInterface {
         ComboBox xSelection = (ComboBox) listaInserts.get(0);
         ComboBox ySelection = (ComboBox) listaInserts.get(1);
         // System.out.println(xSelection.getValue().toString());
-        Double x = estimatedPoint.get(model.getIndexOfHeader(xSelection.getValue().toString()));
-        Double y = estimatedPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
+        Double x = queryPoint.get(model.getIndexOfHeader(xSelection.getValue().toString()));
+        Double y = queryPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
         newSerie.getData().add(new XYChart.Data(x,y));
         scatterChart.getData().add(newSerie);
     }

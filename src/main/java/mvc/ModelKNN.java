@@ -2,7 +2,6 @@ package mvc;
 
 import aIAlgorithms.KNN;
 import csv.CSV;
-import distance.EuclideanDistance;
 import interfaces.*;
 import table.TableWithLabels;
 
@@ -64,8 +63,8 @@ public class ModelKNN implements ModelInterface {
         algorithm.train(table);
     }
     @Override
-    public void estimateParams(List<Double> punto){
-        KNN algorithm = new KNN(new EuclideanDistance());
+    public void estimateParams(List<Double> punto, Distance distance){
+        KNN algorithm = new KNN(distance);
         trainParams(algorithm);
         estimationLabel = algorithm.estimate(punto);
         this.punto = punto;

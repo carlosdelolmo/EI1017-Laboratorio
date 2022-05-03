@@ -12,7 +12,7 @@ class TableWithLabelsTest {
 
     CSV fichero = new CSV();
     String sep = System.getProperty("file.separator");
-    String fName = "src"+sep+"main"+sep+ "iris.csv";
+    String fName = "data"+sep+ "iris.csv";
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
 
     TableWithLabelsTest() throws FileNotFoundException {

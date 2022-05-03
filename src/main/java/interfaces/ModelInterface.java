@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ModelInterface {
     void loadData(String path);
-    void estimateParams(List<Double> puntoAEstimar);
+    void estimateParams(List<Double> puntoAEstimar, Distance distance);
     int getNumColumns();
     List<String> getHeader();
     List<List<Double>> getData();
