@@ -50,13 +50,6 @@ public class ViewKNN implements ViewInterface {
         this.controller = controller;
     }
 
-    /* public ModelKNN getModel() {
-        return (ModelKNN) model;
-    }
-
-    public ControllerKNN getController() {
-        return (ControllerKNN) controller;
-    }*/
     @Override
     public void newDataIsLoaded() {
         numRows = model.getNumRows();

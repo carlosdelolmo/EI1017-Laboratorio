@@ -17,9 +17,6 @@ public class ModelKNN implements ModelInterface {
     public void setView(ViewKNN view) {
         this.view = view;
     }
-    public ViewKNN getObserver() {
-        return (ViewKNN) view;
-    }
     TableWithLabels table = null;
     List<ViewKNN> viewList = new LinkedList<>();
     @Override
