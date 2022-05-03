@@ -2,10 +2,7 @@ package mvc;
 
 import distance.DistanceFactory;
 import distance.DistanceType;
-import interfaces.ControllerInterface;
-import interfaces.ModelInterfaceFromView;
-import interfaces.ViewerInterfaceFromController;
-import interfaces.ViewerInterfaceFromModel;
+import interfaces.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -24,8 +21,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class View implements ViewerInterfaceFromController, ViewerInterfaceFromModel {
-    private ModelInterfaceFromView model;
+public class View implements ViewInterface {
+    private ModelInterface model;
     private ControllerInterface controller;
     private Button btnLoad;
     private List<List<Double>> data = new LinkedList<>();

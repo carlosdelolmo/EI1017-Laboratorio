@@ -1,8 +1,6 @@
 package mvc;
 
-import interfaces.ControllerInterface;
-import interfaces.ModelInterfaceFromController;
-import interfaces.ViewerInterfaceFromController;
+import interfaces.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -10,8 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Controller implements ControllerInterface {
-    private ModelInterfaceFromController model;
-    private ViewerInterfaceFromController view;
+    private ModelInterface model;
+    private ViewInterface view;
     public Controller(){}
     public Controller(Model model, View view){
         this.model = model;

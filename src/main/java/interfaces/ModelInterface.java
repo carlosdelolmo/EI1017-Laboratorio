@@ -2,7 +2,11 @@ package interfaces;
 
 import java.util.List;
 
-public interface ModelInterfaceFromView {
+public interface ModelInterface {
+    void loadData(String path);
+    void estimateParams(List<Double> puntoAEstimar);
+    int getNumColumns();
+    List<String> getHeader();
     List<List<Double>> getData();
     List<Double> getData(int row);
     int getNumRows();

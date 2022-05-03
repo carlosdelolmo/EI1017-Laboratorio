@@ -3,17 +3,15 @@ package mvc;
 import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;
-import interfaces.ModelInterfaceFromController;
-import interfaces.ModelInterfaceFromView;
-import interfaces.ViewerInterfaceFromModel;
+import interfaces.*;
 import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Model implements ModelInterfaceFromController, ModelInterfaceFromView {
-    ViewerInterfaceFromModel view;
+public class Model implements ModelInterface {
+    private ViewInterface view;
     private String estimationLabel;
     private List<Double> punto;
     public Model(){}
