@@ -75,7 +75,8 @@ public class ViewKNN implements ViewInterface {
         borderPane.setBottom(descrip);
         BorderPane.setAlignment(descrip, Pos.CENTER);
         BorderPane.setMargin(descrip, new Insets(20, 20, 20, 20));
-        stage.setScene(new Scene(borderPane, 300, 300));
+        Scene scene = new Scene(borderPane, 300, 300);
+        stage.setScene(scene);
         stage.show();
 
     }
@@ -87,9 +88,6 @@ public class ViewKNN implements ViewInterface {
     private void preTableView(){
         btnLoad.setText("Ver datos");
         descrip.setText("Filas: " + numRows);
-        setGoToTableButton();
-    }
-    private void setGoToTableButton(){
         btnLoad.setOnAction(actionEvent -> showLoadedData());
     }
     @Override
@@ -135,8 +133,8 @@ public class ViewKNN implements ViewInterface {
 
         setXYChangeButton(xSelection, ySelection);
         setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText(),(DistanceType) distanceSelection.getValue());
-
-        stage.setScene(new Scene(gridPane));
+        Scene scene = new Scene(gridPane);
+        stage.setScene(scene);
         stage.show();
     }
     private GridPane createGridPane(){
@@ -228,11 +226,15 @@ public class ViewKNN implements ViewInterface {
         Label currentLabel = (Label) listaInserts.get(4);
         currentLabel.setText("Estimación: " + estimationLabel);
         queryPoint = model.getPunto();
-        insertEstimationSerie();
+        ComboBox xHeader = (ComboBox) listaInserts.get(0);
+        ComboBox yHeader = (ComboBox) listaInserts.get(1);
+        String xSelection = xHeader.getValue().toString();
+        String ySelection = yHeader.getValue().toString();
+        reloadChart(xSelection, ySelection);
         // insertEstimationIntoChart();
         // System.out.println(estimationLabel);
     }
-     private void insertEstimationSerie(){  //ToDo Borrar anterior punto a estimar
+     private void insertEstimationSerie(){
         ScatterChart scatterChart = (ScatterChart) listaInserts.get(6);
         XYChart.Series newSerie = new XYChart.Series();
         newSerie.setName("Estimation");
