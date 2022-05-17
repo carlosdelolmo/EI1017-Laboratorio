@@ -1,8 +1,8 @@
 package interfaces;
 
-import java.util.List;
+import distance.DistanceType;
 
 public interface ControllerInterface {
     void loadData();
-    void estimateParams(Distance distance);
+    void estimateClass(DistanceType distance, String punto);
 }

@@ -35,18 +35,18 @@ public class ViewKNN implements ViewInterface {
     private final List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
     private final List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
 
-    public ViewKNN(ModelKNN model, ControllerKNN controller){
-        this.model = model;
-        this.controller = controller;
+    public ViewKNN(ModelInterface model, ControllerInterface controller){
+       setModel(model);
+        setController(controller);
         model.registerView(this);
     }
     public ViewKNN(){}
-    public void setModel(ModelKNN model) {
+    public void setModel(ModelInterface model) {
         this.model = model;
         model.registerView(this);
     }
 
-    public void setController(ControllerKNN controller) {
+    public void setController(ControllerInterface controller) {
         this.controller = controller;
     }
 
@@ -92,6 +92,7 @@ public class ViewKNN implements ViewInterface {
     }
     @Override
     public void showLoadedData(){
+        listaInserts = new LinkedList<>();
         List<String> headerList = model.getHeader();
         ObservableList observableHeaderList = FXCollections.observableList(headerList);
 
@@ -132,7 +133,7 @@ public class ViewKNN implements ViewInterface {
         insertDataIntoChart(scatterChart, 0, headerList.size()-1);
 
         setXYChangeButton(xSelection, ySelection);
-        setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText(),(DistanceType) distanceSelection.getValue());
+        setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText());
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
         stage.show();
@@ -165,6 +166,7 @@ public class ViewKNN implements ViewInterface {
     }
     private void insertIntoGridPane(GridPane gridPane, List<Integer> posX, List<Integer> posY, List<Object> listaInserts){
         for(int a = 0; a < listaInserts.size(); a++){
+            // System.out.println("Inserting a =" + a + " value: "+ listaInserts.get(a) + " size: " + listaInserts.size());
             gridPane.add((Node) listaInserts.get(a),posX.get(a),posY.get(a));
         }
     }
@@ -209,14 +211,14 @@ public class ViewKNN implements ViewInterface {
         stage.show();
     }
 
-    public void setEstimateChangeButton(Button button, String textoPunto, DistanceType distance){
-        DistanceFactory distanceFactory = new DistanceFactory();
+    public void setEstimateChangeButton(Button button, String textoPunto){
         button.setOnAction(actionEvent -> {
-            controller.estimateParams(distanceFactory.getDistance(distance));
+            ComboBox distanceSelected = (ComboBox) listaInserts.get(2);
+            DistanceType distance = (DistanceType) distanceSelected.getValue();
+            controller.estimateClass(distance,getPuntoValue());
         });
     }
-    @Override
-    public String getPuntoValue(){
+    private String getPuntoValue(){
         TextField currentLabel = (TextField) listaInserts.get(3);
         return currentLabel.getText();
     }

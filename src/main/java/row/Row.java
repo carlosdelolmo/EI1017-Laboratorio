@@ -7,7 +7,7 @@ public class Row {
     public Row(){}
     private List<Double> fila = new LinkedList<>();
 
-    public void add(String elemento){ fila.add(Double.parseDouble(elemento)); }
+    public void add(String valor){ fila.add(Double.parseDouble(valor)); }
 
     public Double getElement(int i){
         if(i >= fila.size() || i < 0) return null;

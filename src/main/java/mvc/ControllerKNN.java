@@ -1,6 +1,8 @@
 package mvc;
 
 import distance.DistanceFactory;
+import distance.DistanceType;
+import distance.EuclideanDistance;
 import interfaces.*;
 import javafx.stage.FileChooser;
 
@@ -12,14 +14,14 @@ public class ControllerKNN implements ControllerInterface {
     private ModelInterface model;
     private ViewInterface view;
     public ControllerKNN(){}
-    public ControllerKNN(ModelKNN model, ViewKNN view){
+    public ControllerKNN(ModelInterface model, ViewKNN view){
         this.model = model;
         this.view = view;
     }
-    public void setView(ViewKNN view){
+    public void setView(ViewInterface view){
         this.view = view;
     }
-    public void setModel(ModelKNN model) {
+    public void setModel(ModelInterface model) {
         this.model = model;
     }
 
@@ -32,10 +34,11 @@ public class ControllerKNN implements ControllerInterface {
         }
     }
     @Override
-    public void estimateParams(Distance distance){
-        String punto = view.getPuntoValue();
+    public void estimateClass(DistanceType distanceType, String punto){
+        DistanceFactory distanceFactory = new DistanceFactory();
+        Distance distance = distanceFactory.getDistance(distanceType);
+        // String punto = view.getPuntoValue();
         String[] puntoSplit = punto.split(",");
-        // System.out.println(Arrays.stream(puntoSplit).toList().toString());
         if(puntoSplit.length == model.getNumColumns() - 1){
             List<Double> listaCoor = new LinkedList<>();
             for (String s : puntoSplit) {

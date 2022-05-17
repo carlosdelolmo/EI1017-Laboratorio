@@ -14,18 +14,18 @@ public class ModelKNN implements ModelInterface {
     private String estimationLabel;
     private List<Double> punto;
     public ModelKNN(){}
-    public void setView(ViewKNN view) {
+    public void setView(ViewInterface view) {
         this.view = view;
     }
     TableWithLabels table = null;
-    List<ViewKNN> viewList = new LinkedList<>();
+    List<ViewInterface> viewList = new LinkedList<>();
     @Override
     public int getNumRows(){
         return table.getNumFilas();
     }
     public int getNumColumns(){return table.getNumColumnas();}
     public void notifyViews(){
-        for(ViewKNN v : viewList){
+        for(ViewInterface v : viewList){
             v.newDataIsLoaded();
         }
     }
@@ -53,7 +53,8 @@ public class ModelKNN implements ModelInterface {
         }
         notifyViews();
     }
-    public void registerView(ViewKNN v){
+    @Override
+    public void registerView(ViewInterface v){
         viewList.add(v);
     }
     private void trainParams(KNN algorithm){
@@ -68,7 +69,7 @@ public class ModelKNN implements ModelInterface {
         estimationDone();
     }
     private void estimationDone(){
-        for(ViewKNN suscrito:viewList){
+        for(ViewInterface suscrito:viewList){
             view.estimationDone();
         }
     }

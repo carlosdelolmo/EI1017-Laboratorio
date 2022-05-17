@@ -27,7 +27,7 @@ class RegresionLinealTest {
     void train() {
         regresion.train(tabla);
         assertEquals(1.255, regresion.getA(), 0.001);
-        assertEquals(274.85, regresion.getB(), 0.001);
+        assertEquals(274.85, regresion.getB(), 0.001);          // Obtenemos estos valores mediante el calculo manual de la recta de regresion
     }
 
     @Test

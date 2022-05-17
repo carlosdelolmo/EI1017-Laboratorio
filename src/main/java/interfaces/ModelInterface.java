@@ -1,5 +1,7 @@
 package interfaces;
 
+import mvc.ViewKNN;
+
 import java.util.List;
 
 public interface ModelInterface {
@@ -17,4 +19,5 @@ public interface ModelInterface {
     int getIndexOfHeader(String header);
     String getEstimationLabel();
     List<Double> getPunto();
+    void registerView(ViewInterface vi);
 }

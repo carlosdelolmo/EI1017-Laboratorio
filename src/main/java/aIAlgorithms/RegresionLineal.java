@@ -8,14 +8,14 @@ import java.util.List;
 public class RegresionLineal implements Algorithm<Table,Double,Double> {
     double a, b;
 
-    private double media(List<Double> listado){
-        if (listado.size()==0)
+    private double media(List<Double> listaNumeros){
+        if (listaNumeros.size()==0)
                 throw new IndexOutOfBoundsException();
         int sumatorio = 0;
-        for(Double numero:listado){
+        for(Double numero:listaNumeros){
             sumatorio += numero;
         }
-        return (double) sumatorio / listado.size();
+        return (double) sumatorio / listaNumeros.size();
     }
 
     public void train(Table tabla){
@@ -26,14 +26,12 @@ public class RegresionLineal implements Algorithm<Table,Double,Double> {
             numerador += difX * (Y.get(i) - mediaY);
             denominador += difX * difX;
         }
-
-
         a = numerador / denominador;
         b = mediaY - a * mediaX;
     }
 
     public Double estimate(Double sample){
-        return a*sample + b;
+        return a * sample + b;
     }
     public Double getA(){return a;}
     public Double getB(){return b;}

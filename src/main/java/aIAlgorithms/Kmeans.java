@@ -73,13 +73,13 @@ public class Kmeans implements Algorithm<Table, Row, String > , DistanceClient {
     }
 
     private int calcularGrupo(Row fila) { // Calcula el grupo más cercano a una fila dada
-        double min_dist = -1.0;
+        double min_dist = distance.calculateDistance(fila.getData(), representantes.get(0));
         int indice_grupo = 0;
         for (int j = 0; j < representantes.size(); j++) {
             List < Double > actual = representantes.get(j);
             if (actual.size() > 0) {
                 double dist = distance.calculateDistance(fila.getData(), representantes.get(j));
-                if (min_dist > dist || min_dist == -1.0) {
+                if (dist < min_dist) { // min_dist > dist || min_dist == -1.0
                     min_dist = dist;
                     indice_grupo = j;
                 }
