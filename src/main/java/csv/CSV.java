@@ -8,42 +8,42 @@ import java.io.*;
 public class CSV {
     public CSV(){}
     String line= null;
-    String [] campos;
+    String [] encabezadosCSV;
 
     public Table readTable(String nombreFichero) throws FileNotFoundException {
-        BufferedReader br = initialize(nombreFichero);
+        BufferedReader bufferedReader = initialize(nombreFichero);
         Table tabla= new Table();
-        tabla.addHeader(campos);
-        return readDocument(br, tabla);
+        tabla.addHeader(encabezadosCSV);
+        return readDocument(bufferedReader, tabla);
     }
 
     public Table readTableWithLabels(String nombreFichero) throws FileNotFoundException {
-        BufferedReader br = initialize(nombreFichero);
+        BufferedReader bufferedReader = initialize(nombreFichero);
         Table tabla= new TableWithLabels();
-        tabla.addHeader(campos);
-        return readDocument(br, tabla);
+        tabla.addHeader(encabezadosCSV);
+        return readDocument(bufferedReader, tabla);
     }
 
     private BufferedReader initialize(String nombreFichero) throws FileNotFoundException {
-        BufferedReader br = new BufferedReader(new FileReader(nombreFichero));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(nombreFichero));
         try {
-            line = br.readLine();
-            campos = line.split(",");
-        } catch (IOException e) {
-            e.printStackTrace();
+            line = bufferedReader.readLine();
+            encabezadosCSV = line.split(",");
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
-        return br;
+        return bufferedReader;
     }
 
-    private Table readDocument(BufferedReader br, Table tabla){
+    private Table readDocument(BufferedReader bufferedReader, Table tabla){
         while(true){
             try {
-                if ((line = br.readLine()) == null) break;
-            } catch (IOException e) {
-                e.printStackTrace();
+                if ((line = bufferedReader.readLine()) == null) break;
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
-            String [] num = line.split(",");
-            tabla.addRow(num);
+            String [] splittedLine = this.line.split(",");
+            tabla.addRow(splittedLine);
         }
         return tabla;
     }

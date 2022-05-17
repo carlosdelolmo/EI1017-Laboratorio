@@ -14,29 +14,29 @@ public class KNN implements Algorithm<TableWithLabels,List<Double>,String>, Dist
     public KNN(Distance distancia) {
         this.distance = distancia;
     }
-    public void train(TableWithLabels tablaAEstudiar){
-        tabla = tablaAEstudiar;
+    public void train(TableWithLabels tabla){
+        this.tabla = tabla;
     }
 
     public String estimate(List<Double> sample){
         if(sample.size() != tabla.getNumColumnas() - 1) return null;
-        int posMinimo = indiceMinimo(sample); // Calcula la posición de la mínima distancia
+        int posMinimo = minimaDistancia(sample); // Calcula la posición de la mínima distancia
         return tabla.getRowAt(posMinimo).getLabel();
     }
 
-    private int indiceMinimo(List<Double> sample){
+    private int minimaDistancia(List<Double> sample){
         Double minimo = null;
-        int fila = 0;
+        int posMinimo = 0;
         for(int i = 0; i < tabla.getNumFilas(); i++){
-            List<Double> elementoFichero = tabla.getRowAt(i).getData();
-            Double distancia = distance.calculateDistance(sample, elementoFichero);
+            List<Double> fila = tabla.getRowAt(i).getData();
+            Double distancia = distance.calculateDistance(sample, fila);
             if(minimo == null) minimo = distancia;
             else if(distancia < minimo){
                 minimo = distancia;
-                fila = i;
+                posMinimo = i;
             }
         }
-        return fila;
+        return posMinimo;
     }
 
     @Override

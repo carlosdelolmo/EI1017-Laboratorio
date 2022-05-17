@@ -46,23 +46,21 @@ class KNNTest {
         lista.add(1.0); lista.add(2.7); lista.add(5.1);
         assertNull(euclideanKnn.estimate(lista)); // El numero de columnas no coincide
 
-        lista = new LinkedList<>();
-        lista.add(5.1); lista.add(3.4); lista.add(1.5); lista.add(0.2);
-        assertEquals("Iris-setosa", euclideanKnn.estimate(lista));
-
         List<Integer> listaIndices = new LinkedList<>();
         listaIndices.add(0); listaIndices.add(74); listaIndices.add(109); listaIndices.add(129);
         for(int indice : listaIndices){
             RowWithLabel fila = tabla.getRowAt(indice);
             lista = fila.getData();
             assertEquals(fila.getLabel(), euclideanKnn.estimate(lista));
-            assertEquals(fila.getLabel(), manhattanKnn.estimate(lista));
+            assertEquals(fila.getLabel(), manhattanKnn.estimate(lista)); // Con ambas distancias los resultados son los esperados
         }
-
-        lista = new LinkedList<>();
-        lista.add(5.1); lista.add(3.4); lista.add(1.6); lista.add(0.3);
-        assertEquals("Iris-setosa", euclideanKnn.estimate(lista));
-        assertEquals("Iris-setosa", manhattanKnn.estimate(lista)); // Valores cercanos a la Iris-Setosa anteriormente probada.
-
+        listaIndices = new LinkedList<>();
+        for(int i = 0; i < tabla.getNumFilas(); i += 11){
+            listaIndices.add(i);
+        }
+        for(int i = 0; i < listaIndices.size(); i++) {
+            assertEquals(tabla.getRowAt(i).getLabel(), euclideanKnn.estimate(tabla.getRowAt(i).getData()));
+            // Probamos con más valores de la tabla
+        }
     }
 }
