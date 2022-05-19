@@ -1,5 +1,7 @@
 package csv;
 
+import fileTools.FileType;
+import fileTools.InvalidFileTypeException;
 import table.Table;
 import table.TableWithLabels;
 
@@ -11,20 +13,33 @@ public class CSV {
     String [] encabezadosCSV;
 
     public Table readTable(String nombreFichero) throws FileNotFoundException {
-        BufferedReader bufferedReader = initialize(nombreFichero);
-        Table tabla= new Table();
-        tabla.addHeader(encabezadosCSV);
-        return readDocument(bufferedReader, tabla);
+        try {
+            BufferedReader bufferedReader = initialize(nombreFichero);
+            Table tabla= new Table();
+            tabla.addHeader(encabezadosCSV);
+            return readDocument(bufferedReader, tabla);
+        } catch(InvalidFileTypeException invalidFileTypeException){
+            invalidFileTypeException.printStackTrace();
+        }
+        return null;
     }
 
     public Table readTableWithLabels(String nombreFichero) throws FileNotFoundException {
-        BufferedReader bufferedReader = initialize(nombreFichero);
-        Table tabla= new TableWithLabels();
-        tabla.addHeader(encabezadosCSV);
-        return readDocument(bufferedReader, tabla);
+        try {
+            BufferedReader bufferedReader = initialize(nombreFichero);
+            Table tabla= new TableWithLabels();
+            tabla.addHeader(encabezadosCSV);
+            return readDocument(bufferedReader, tabla);
+        } catch(InvalidFileTypeException invalidFileTypeException){
+            invalidFileTypeException.printStackTrace();
+        }
+        return null;
     }
 
-    private BufferedReader initialize(String nombreFichero) throws FileNotFoundException {
+    private BufferedReader initialize(String nombreFichero) throws FileNotFoundException, InvalidFileTypeException {
+        FileType fileType = new FileType(nombreFichero);
+        if (fileType.getExtension().compareTo("csv") != 0)
+               throw new InvalidFileTypeException("csv", fileType.getExtension());
         BufferedReader bufferedReader = new BufferedReader(new FileReader(nombreFichero));
         try {
             line = bufferedReader.readLine();

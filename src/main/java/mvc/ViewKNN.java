@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,13 +33,12 @@ public class ViewKNN implements ViewInterface {
     private List<Object> listaInserts = new LinkedList();
     private GridPane gridPane;
     private List<Double> queryPoint;
-    private final List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1); // Coordenadas de la disposicion escogida
-    private final List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1);
+    private final List<Integer> coorX = Arrays.asList(1,0,2,2,2,2,1,2,2); // Coordenadas de la disposicion escogida
+    private final List<Integer> coorY = Arrays.asList(2,1,1,2,3,4,1,0,5);
 
     public ViewKNN(ModelInterface model, ControllerInterface controller){
-       setModel(model);
+        setModel(model);
         setController(controller);
-        model.registerView(this);
     }
     public ViewKNN(){}
     public void setModel(ModelInterface model) {
@@ -125,6 +125,12 @@ public class ViewKNN implements ViewInterface {
         ScatterChart scatterChart = createScatterChart(xAxis,yAxis,headerList.get(0), headerList.get(headerList.size()-1));
         listaInserts.add(scatterChart);
 
+        Button resetButton = new Button("Cambiar fichero");
+        listaInserts.add(resetButton);
+
+        Button ultimoPunto = new Button("Último punto");
+        listaInserts.add(ultimoPunto);
+
         gridPane = createGridPane();
 
         insertIntoGridPane(gridPane, coorX, coorY, listaInserts);
@@ -132,12 +138,40 @@ public class ViewKNN implements ViewInterface {
 
         insertDataIntoChart(scatterChart, 0, headerList.size()-1);
 
+        setResetChangeButton(resetButton);
+        setAnteriorPuntoChangeButton(ultimoPunto);
         setXYChangeButton(xSelection, ySelection);
         setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText());
         Scene scene = new Scene(gridPane);
         stage.setScene(scene);
         stage.show();
     }
+    private void setResetChangeButton(Button button){
+        button.setOnAction(actionEvent -> {
+            listaInserts = new LinkedList<>();
+            queryPoint = null;
+            controller.setLastPoint(null);
+            createGUI(stage);
+        });
+    }
+
+    private void setAnteriorPuntoChangeButton(Button button){
+        button.setOnAction(actionEvent -> {
+            List<Double> lastQueryPoint = controller.getLastPoint();
+            if(lastQueryPoint != null && !lastQueryPoint.equals(queryPoint)){
+                List<Double> aux = new LinkedList<>();
+                aux = queryPoint;
+                queryPoint = lastQueryPoint;
+                controller.setLastPoint(aux);
+                String point = queryPoint.toString();
+                String accessiblePoint = point.substring(1,point.length()-1);
+                callEstimate(accessiblePoint);
+                TextField pointText = (TextField) listaInserts.get(3);
+                pointText.setText(accessiblePoint);
+            }
+        });
+    }
+
     private GridPane createGridPane(){
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -213,10 +247,13 @@ public class ViewKNN implements ViewInterface {
 
     public void setEstimateChangeButton(Button button, String textoPunto){
         button.setOnAction(actionEvent -> {
-            ComboBox distanceSelected = (ComboBox) listaInserts.get(2);
-            DistanceType distance = (DistanceType) distanceSelected.getValue();
-            controller.estimateClass(distance,getPuntoValue());
+            callEstimate(getPuntoValue());
         });
+    }
+    private void callEstimate(String puntoValue){
+        ComboBox distanceSelected = (ComboBox) listaInserts.get(2);
+        DistanceType distance = (DistanceType) distanceSelected.getValue();
+        controller.estimateClass(distance, puntoValue);
     }
     private String getPuntoValue(){
         TextField currentLabel = (TextField) listaInserts.get(3);
@@ -227,14 +264,22 @@ public class ViewKNN implements ViewInterface {
         String estimationLabel = model.getEstimationLabel();
         Label currentLabel = (Label) listaInserts.get(4);
         currentLabel.setText("Estimación: " + estimationLabel);
+        List<Double> aux = queryPoint;
         queryPoint = model.getPunto();
+        if(aux != null && !aux.equals(queryPoint)) controller.setLastPoint(aux);
+        // if(controller.getLastPoint() != null)
+        // System.out.println("Valor punto anterior: "+ controller.getLastPoint().toString());
+        // System.out.println("Valor punto actual: "+ queryPoint.toString());
+        queryPointIsReady();
+        // insertEstimationIntoChart();
+        // System.out.println(estimationLabel);
+    }
+    private void queryPointIsReady(){
         ComboBox xHeader = (ComboBox) listaInserts.get(0);
         ComboBox yHeader = (ComboBox) listaInserts.get(1);
         String xSelection = xHeader.getValue().toString();
         String ySelection = yHeader.getValue().toString();
         reloadChart(xSelection, ySelection);
-        // insertEstimationIntoChart();
-        // System.out.println(estimationLabel);
     }
      private void insertEstimationSerie(){
         ScatterChart scatterChart = (ScatterChart) listaInserts.get(6);

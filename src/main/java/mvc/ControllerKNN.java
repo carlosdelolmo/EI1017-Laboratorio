@@ -13,6 +13,8 @@ import java.util.List;
 public class ControllerKNN implements ControllerInterface {
     private ModelInterface model;
     private ViewInterface view;
+    private List<Double> lastPoint;
+    private String lastLabel;
     public ControllerKNN(){}
     public ControllerKNN(ModelInterface model, ViewKNN view){
         this.model = model;
@@ -47,4 +49,8 @@ public class ControllerKNN implements ControllerInterface {
             model.estimateParams(listaCoor, distance);
         }
     }
+    @Override
+    public List<Double> getLastPoint(){ return lastPoint; }
+    @Override
+    public void setLastPoint(List<Double> point){ this.lastPoint = point;}
 }

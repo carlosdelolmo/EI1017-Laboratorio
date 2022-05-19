@@ -70,6 +70,8 @@ public class ModelKNN implements ModelInterface {
     }
     private void estimationDone(){
         for(ViewInterface suscrito:viewList){
+            // System.out.println("aviso a " + suscrito.toString());
+            // System.out.println("viewList size = " + viewList.size());
             view.estimationDone();
         }
     }
