@@ -51,7 +51,7 @@ public class ModelKNN implements ModelInterface {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        notifyViews();
+        if(table != null) notifyViews();
     }
     @Override
     public void registerView(ViewInterface v){

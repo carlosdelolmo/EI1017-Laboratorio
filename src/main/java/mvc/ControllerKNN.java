@@ -43,12 +43,19 @@ public class ControllerKNN implements ControllerInterface {
         String[] puntoSplit = punto.split(",");
         if(puntoSplit.length == model.getNumColumns() - 1){
             List<Double> listaCoor = new LinkedList<>();
-            for (String s : puntoSplit) {
-                listaCoor.add(Double.parseDouble(s));
+            try {
+                for (String s : puntoSplit) {
+                    listaCoor.add(Double.parseDouble(s));
+                }
+                model.estimateParams(listaCoor, distance);
             }
-            model.estimateParams(listaCoor, distance);
+            catch(Exception exception){
+                // exception.printStackTrace();
+                // System.out.println("Formato incorrecto de los números");
+            }
         }
     }
+
     @Override
     public List<Double> getLastPoint(){ return lastPoint; }
     @Override

@@ -19,7 +19,8 @@ public class CSV {
             tabla.addHeader(encabezadosCSV);
             return readDocument(bufferedReader, tabla);
         } catch(InvalidFileTypeException invalidFileTypeException){
-            invalidFileTypeException.printStackTrace();
+            // invalidFileTypeException.printStackTrace();
+            System.out.println("El tipo de fichero esperado era csv!");
         }
         return null;
     }
@@ -31,7 +32,8 @@ public class CSV {
             tabla.addHeader(encabezadosCSV);
             return readDocument(bufferedReader, tabla);
         } catch(InvalidFileTypeException invalidFileTypeException){
-            invalidFileTypeException.printStackTrace();
+            // invalidFileTypeException.printStackTrace();
+            System.out.println("El tipo de fichero esperado era csv!");
         }
         return null;
     }

@@ -1,4 +1,13 @@
-Para facilitar la labor de corrección, hemos incluído este fichero donde se resumen algunas de las mejoras de la nueva versión implementada, en referencia a las sugerencias del profesor.
+Para facilitar la labor de corrección, hemos incluído este fichero donde se resumen algunas de las mejoras de la nueva versión implementada, las sugerencias del profesor, y mejoras propias que se nos han ocurrido para intentar mejorar la experiencia de usuario.
+
+Mejoras propias
+===============
+- Creada una clase FileType que permite verificar que cierto archivo tiene una extensión dada. En caso contrario lanza una excepción propia y se deja de trabajar con el archivo. Usamos esta clase para verificar que trabajamos con ficheros CSV.
+- Creados test unitarios para comprobar el funcionamiento de la clase FileType.
+- Creada una excepción propia InvalidFileTypeException.
+- Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
+- Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
+- Gestionada en el controlador la inserción de puntos para estimar. Si se introducen valores que no se pueden pasar a Double no produce un error.
 
 Sesion 1
 ========
@@ -73,12 +82,3 @@ Sesion 4
 
 17	En controlador: view.getPuntoValue() mejor que pasarle el punto?
 		Corregido, ahora el controlador recibe directamente el punto, ya no se lo pide a la vista.
-
-
-Extra
-=======
-- Creada una clase FileType que permite verificar que el archivo con el que se va a trabajar tiene extensión CSV. En caso contrario lanza una excepción propia describiendo el error.
-- Creada una excepción propia InvalidFileTypeException.
-- Creados test adicionales para comprobar el funcionamiento de la clase FileType.
-- Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
-- Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
