@@ -5,9 +5,11 @@ Mejoras propias
 - Creada una clase FileType que permite verificar que cierto archivo tiene una extensión dada. En caso contrario lanza una excepción propia y se deja de trabajar con el archivo. Usamos esta clase para verificar que trabajamos con ficheros CSV.
 - Creados test unitarios para comprobar el funcionamiento de la clase FileType.
 - Creada una excepción propia InvalidFileTypeException.
+- Creada una ventana "popup" que aparece si el fichero que se abre no es csv y advierte al usuario.
+- Gestionada en el controlador la inserción de puntos para estimar. Si se introducen valores que no se pueden pasar a Double no produce un error.
+- Creada una ventana "popup" que aparece si el punto introducido no pasa la validación.
 - Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
 - Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
-- Gestionada en el controlador la inserción de puntos para estimar. Si se introducen valores que no se pueden pasar a Double no produce un error.
 
 Sesion 1
 ========

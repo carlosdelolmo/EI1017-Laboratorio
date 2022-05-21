@@ -52,6 +52,7 @@ public class ModelKNN implements ModelInterface {
             throw new RuntimeException(e);
         }
         if(table != null) notifyViews();
+        else view.showCsvPopup();
     }
     @Override
     public void registerView(ViewInterface v){

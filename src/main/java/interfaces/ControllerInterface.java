@@ -9,4 +9,5 @@ public interface ControllerInterface {
     void estimateClass(DistanceType distance, String punto);
     List<Double> getLastPoint();
     void setLastPoint(List<Double> point);
+    void openDefaultCsv();
 }

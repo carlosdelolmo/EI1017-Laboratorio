@@ -20,7 +20,7 @@ public class CSV {
             return readDocument(bufferedReader, tabla);
         } catch(InvalidFileTypeException invalidFileTypeException){
             // invalidFileTypeException.printStackTrace();
-            System.out.println("El tipo de fichero esperado era csv!");
+            // System.out.println("El tipo de fichero esperado era csv!");
         }
         return null;
     }
@@ -33,7 +33,7 @@ public class CSV {
             return readDocument(bufferedReader, tabla);
         } catch(InvalidFileTypeException invalidFileTypeException){
             // invalidFileTypeException.printStackTrace();
-            System.out.println("El tipo de fichero esperado era csv!");
+            // System.out.println("El tipo de fichero esperado era csv!");
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package mvc;
 
-import distance.DistanceFactory;
 import distance.DistanceType;
 import interfaces.*;
 import javafx.collections.FXCollections;
@@ -13,11 +12,16 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,11 +58,6 @@ public class ViewKNN implements ViewInterface {
     public void newDataIsLoaded() {
         numRows = model.getNumRows();
         data = model.getData();
-        /*
-        for(int i = 0; i < model.getNumRows(); i++) {
-            data.add(model.getData(i));
-        }*/
-        // preTableView();
         showLoadedData();
     }
     public void createGUI(Stage primaryStage){
@@ -68,17 +67,33 @@ public class ViewKNN implements ViewInterface {
     }
     private void createMainView(){
         stage.setTitle("KNN");
-        btnLoad = new Button("Cargar dataset");
+        btnLoad = new Button("Cargar dataset propio");
         descrip = new Label("No data avalible");
+        Button csvSampleButton = new Button("Usar un ejemplo");
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(btnLoad);
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.getChildren().add(btnLoad);
+        //borderPane.setCenter(btnLoad);
+        hbox.getChildren().add(csvSampleButton);
+        borderPane.setCenter(hbox);
         borderPane.setBottom(descrip);
         BorderPane.setAlignment(descrip, Pos.CENTER);
         BorderPane.setMargin(descrip, new Insets(20, 20, 20, 20));
-        Scene scene = new Scene(borderPane, 300, 300);
+        Scene scene = new Scene(borderPane, 400, 300);
+        setCsvSampleButtonChange(csvSampleButton);
         stage.setScene(scene);
         stage.show();
 
+    }
+    private void setCsvSampleButtonChange(Button button){
+        button.setOnAction(actionEvent -> {
+                button.setVisible(false);
+                controller.openDefaultCsv();
+        }
+
+        );
     }
     private void setFileChooserButton(){
         btnLoad.setOnAction(actionEvent -> {
@@ -128,8 +143,8 @@ public class ViewKNN implements ViewInterface {
         Button resetButton = new Button("Cambiar fichero");
         listaInserts.add(resetButton);
 
-        Button ultimoPunto = new Button("Último punto");
-        listaInserts.add(ultimoPunto);
+        Button lastPoint = new Button("Último punto");
+        listaInserts.add(lastPoint);
 
         gridPane = createGridPane();
 
@@ -139,7 +154,7 @@ public class ViewKNN implements ViewInterface {
         insertDataIntoChart(scatterChart, 0, headerList.size()-1);
 
         setResetChangeButton(resetButton);
-        setAnteriorPuntoChangeButton(ultimoPunto);
+        setAnteriorPuntoChangeButton(lastPoint);
         setXYChangeButton(xSelection, ySelection);
         setEstimateChangeButton(estimateButton, pointToEstimate.getAccessibleText());
         Scene scene = new Scene(gridPane);
@@ -267,12 +282,7 @@ public class ViewKNN implements ViewInterface {
         List<Double> aux = queryPoint;
         queryPoint = model.getPunto();
         if(aux != null && !aux.equals(queryPoint)) controller.setLastPoint(aux);
-        // if(controller.getLastPoint() != null)
-        // System.out.println("Valor punto anterior: "+ controller.getLastPoint().toString());
-        // System.out.println("Valor punto actual: "+ queryPoint.toString());
         queryPointIsReady();
-        // insertEstimationIntoChart();
-        // System.out.println(estimationLabel);
     }
     private void queryPointIsReady(){
         ComboBox xHeader = (ComboBox) listaInserts.get(0);
@@ -292,5 +302,39 @@ public class ViewKNN implements ViewInterface {
         Double y = queryPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
         newSerie.getData().add(new XYChart.Data(x,y));
         scatterChart.getData().add(newSerie);
+    }
+
+    @Override
+    public void showCsvPopup(){
+        Stage popupCsv = new Stage();
+        popupCsv.initModality(Modality.APPLICATION_MODAL);
+        popupCsv.initOwner(stage);
+        VBox vBox = new VBox(10);
+        vBox.setSpacing(10);
+        Button button = new Button("Ok");
+        button.setOnAction(actionEvent -> popupCsv.close());
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().add(new Label("Debes usar un fichero csv!"));
+        vBox.getChildren().add(button);
+        Scene dialogScene = new Scene(vBox, 200, 100);
+        popupCsv.setScene(dialogScene);
+        popupCsv.show();
+    }
+
+    @Override
+    public void showInvalidPointPopup(){
+        Stage popupPoint = new Stage();
+        popupPoint.initModality(Modality.APPLICATION_MODAL);
+        popupPoint.initOwner(stage);
+        VBox vBox = new VBox(10);
+        vBox.setSpacing(10);
+        Button button = new Button("Ok");
+        button.setOnAction(actionEvent -> popupPoint.close());
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().add(new Label("Introduce el punto correctamente\nEjemplo de uso: 1.0, 1.2, 2.1, 1.6"));
+        vBox.getChildren().add(button);
+        Scene dialogScene = new Scene(vBox, 300, 150);
+        popupPoint.setScene(dialogScene);
+        popupPoint.show();
     }
 }

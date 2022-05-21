@@ -50,14 +50,22 @@ public class ControllerKNN implements ControllerInterface {
                 model.estimateParams(listaCoor, distance);
             }
             catch(Exception exception){
+                view.showInvalidPointPopup();
                 // exception.printStackTrace();
                 // System.out.println("Formato incorrecto de los números");
             }
         }
+        else view.showInvalidPointPopup();
     }
 
     @Override
     public List<Double> getLastPoint(){ return lastPoint; }
     @Override
     public void setLastPoint(List<Double> point){ this.lastPoint = point;}
+    @Override
+    public void openDefaultCsv(){
+        File file = new File("data/iris.csv");
+        model.loadData(file.getAbsolutePath());
+
+    }
 }
