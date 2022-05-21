@@ -16,6 +16,7 @@ public class ControllerKNN implements ControllerInterface {
     private List<Double> lastPoint;
     private String lastLabel;
     public ControllerKNN(){}
+    private final String sampleFile = "data/iris.csv";
     public ControllerKNN(ModelInterface model, ViewKNN view){
         this.model = model;
         this.view = view;
@@ -64,8 +65,12 @@ public class ControllerKNN implements ControllerInterface {
     public void setLastPoint(List<Double> point){ this.lastPoint = point;}
     @Override
     public void openDefaultCsv(){
-        File file = new File("data/iris.csv");
+        File file = new File(sampleFile);
         model.loadData(file.getAbsolutePath());
 
+    }
+    @Override
+    public String getSampleFile() {
+        return sampleFile;
     }
 }

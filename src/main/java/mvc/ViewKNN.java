@@ -68,7 +68,7 @@ public class ViewKNN implements ViewInterface {
     private void createMainView(){
         stage.setTitle("KNN");
         btnLoad = new Button("Cargar dataset propio");
-        descrip = new Label("No data avalible");
+        descrip = new Label(controller.getSampleFile() + " está disponible");
         Button csvSampleButton = new Button("Usar un ejemplo");
         BorderPane borderPane = new BorderPane();
         HBox hbox = new HBox();
@@ -320,7 +320,6 @@ public class ViewKNN implements ViewInterface {
         popupCsv.setScene(dialogScene);
         popupCsv.show();
     }
-
     @Override
     public void showInvalidPointPopup(){
         Stage popupPoint = new Stage();

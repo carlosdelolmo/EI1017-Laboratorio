@@ -10,4 +10,5 @@ public interface ControllerInterface {
     List<Double> getLastPoint();
     void setLastPoint(List<Double> point);
     void openDefaultCsv();
+    String getSampleFile();
 }
