@@ -1,10 +1,10 @@
 package Singleton;
 
-public class SingletonTableSamples {
+public class SingletonFileSamples {
     private static String tableWithLabels;
     private static String tableNoLabels;
-    private static final SingletonTableSamples Singleton = new SingletonTableSamples();
-    private SingletonTableSamples(){
+    private static final SingletonFileSamples Singleton = new SingletonFileSamples();
+    private SingletonFileSamples(){
         String sep = System.getProperty("file.separator");
         tableWithLabels = "data"+sep+ "iris.csv";
         tableNoLabels = "data"+sep+"miles_dollars.csv";

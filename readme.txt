@@ -1,4 +1,4 @@
-Para facilitar la labor de corrección, hemos incluído este fichero donde se resumen algunas de las mejoras de la nueva versión implementada, las sugerencias del profesor, y mejoras propias que se nos han ocurrido para intentar mejorar la experiencia de usuario.
+Para facilitar la labor de corrección, hemos incluido este fichero donde se resumen algunas de las mejoras de la nueva versión implementada, las sugerencias del profesor, y mejoras propias que se nos han ocurrido para intentar mejorar la experiencia de usuario.
 
 Mejoras propias
 ===============
@@ -10,8 +10,8 @@ Mejoras propias
 - Creada una ventana "popup" que aparece si el punto introducido no pasa la validación anterior.
 - Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
 - Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
-- Añadido nuevo botón que permite abrir un dataset de ejemplo. El controlador se encarga de gestionarlo y pasarle al modelo el fichero a leer.
-- Añadida una clase SigletonTableSamples que proporciona un punto de acceso global a ficheros de ejemplo. Esto permitiría trabajar de forma eficiente con varios controladores y tests. Al cambiar el fichero de ejemplo en la clase Sigleton, todas las clases que dependen de ella se actualizarían.
+- Añadido nuevo botón que permite abrir un dataset de ejemplo. El controlador se encarga de gestionarlo y pasar al modelo el fichero a leer.
+- Añadida una clase SingletonFileSamples que proporciona un punto de acceso global a ficheros de ejemplo. Esto permitiría trabajar de forma eficiente con varios controladores y test. Al cambiar el fichero de ejemplo en la clase Sigleton, todas las clases que dependen de ella se actualizarían.
 
 Sesión 1
 ========
@@ -20,7 +20,7 @@ Sesión 1
 		KNN.train(TableWithLabels tabla) --> KNN.train(Table tabla) // Y posteriormente se promociona a TableWithLabels
 
 9	Los nombres de algunas variables o funciones no parecen demasiado adecuados
-		Sustituídos los nombres confusos y poco explicativos.
+		Sustituidos los nombres confusos y poco explicativos.
 		br --> bufferedReader
 		e  --> exception
 		campos --> encabezadosCSV
@@ -30,7 +30,7 @@ Sesión 1
 		listado --> listaNumeros
 
 4 	En algunas pruebas no se sabe cómo se ha obtenido el valor esperado o podría mejorarse/automatizarse
-		Se automatizan mediante el uso de los métodos ya definidos y bucles
+		Se automatizan mediante el uso de los métodos ya definidos y bucles.
 		Se automatiza la obtención del nombre de los ficheros a usar mediante el patrón de diseño Singleton. Si quisiésemos cambiar alguno de los ficheros csv usados, solo habría que realizar un cambio en la clase Singleton.
 
 Sesión 2
@@ -61,7 +61,7 @@ Sesión 2
 		Corregido
 
 39*	El concepto de kmeans() no parece que esté claro; y parece que la implementación se resiente, aunque se nota un esfuerzo en tener una solución modular
-		Se ha modificado gran parte de la implementación de kmeans. Inicialmente se tenía una idea confusa de el concepto, pero en las siguientes clases de prácitcas se han solucionado.
+		Se ha modificado gran parte de la implementación de kmeans. Inicialmente se tenía una idea confusa de el concepto, pero en las siguientes clases de prácticas se han solucionado.
 
 Sesión 3
 ========

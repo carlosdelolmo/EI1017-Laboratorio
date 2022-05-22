@@ -1,9 +1,8 @@
 package table;
 
-import Singleton.SingletonTableSamples;
+import Singleton.SingletonFileSamples;
 import csv.CSV;
 import org.junit.jupiter.api.Test;
-import table.TableWithLabels;
 
 import java.io.FileNotFoundException;
 
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TableWithLabelsTest {
 
     CSV fichero = new CSV();
-    String fName = SingletonTableSamples.getTableWithLabelsFile();
+    String fName = SingletonFileSamples.getTableWithLabelsFile();
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
 
     TableWithLabelsTest() throws FileNotFoundException {

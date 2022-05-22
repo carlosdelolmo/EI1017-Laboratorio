@@ -75,7 +75,6 @@ public class ViewKNN implements ViewInterface {
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER);
         hbox.getChildren().add(btnLoad);
-        //borderPane.setCenter(btnLoad);
         hbox.getChildren().add(csvSampleButton);
         borderPane.setCenter(hbox);
         borderPane.setBottom(descrip);
@@ -90,7 +89,7 @@ public class ViewKNN implements ViewInterface {
     private void setCsvSampleButtonChange(Button button){
         button.setOnAction(actionEvent -> {
                 button.setVisible(false);
-                controller.openDefaultCsv();
+                controller.loadDefaultData();
         }
 
         );
@@ -220,7 +219,6 @@ public class ViewKNN implements ViewInterface {
         }
     }
     private void insertDataIntoChart(ScatterChart scatterChart, int serieXIndex, int serieYIndex){
-        // System.out.println("SC: " + scatterChart.toString() + " - X index: " + serieXIndex + " - Y index: " + serieYIndex);
         List<XYChart.Series> seriesList = new LinkedList<>();
         for(int i = 0; i < model.getNumberOfLabels(); i++){     // Creamos tantas series como distintas etiquetas tenga el fichero csv pasado
             seriesList.add(new XYChart.Series());
@@ -252,7 +250,6 @@ public class ViewKNN implements ViewInterface {
 
         ScatterChart scatterChart = createScatterChart(xAxis,yAxis,xValue,yValue);
         listaInserts.set(6, scatterChart); // Insertamos en la posición 6 del vector de Inserts el nuevo gráfico
-        // System.out.println("X: " + xValue + " - Y: " + yValue);
         insertDataIntoChart(scatterChart, model.getIndexOfHeader(xValue), model.getIndexOfHeader(yValue)); // Le decimos al metodo insertDataIntoChart que queremos
         gridPane = createGridPane();                                                                       // insertar en scatterChart las opciones que tenemos en xValue
         insertIntoGridPane(gridPane, coorX, coorY, listaInserts);                                          // e yValue, pero se lo decimos por medio de índices
@@ -297,7 +294,6 @@ public class ViewKNN implements ViewInterface {
         newSerie.setName("Estimation");
         ComboBox xSelection = (ComboBox) listaInserts.get(0);
         ComboBox ySelection = (ComboBox) listaInserts.get(1);
-        // System.out.println(xSelection.getValue().toString());
         Double x = queryPoint.get(model.getIndexOfHeader(xSelection.getValue().toString()));
         Double y = queryPoint.get(model.getIndexOfHeader(ySelection.getValue().toString()));
         newSerie.getData().add(new XYChart.Data(x,y));
@@ -306,34 +302,25 @@ public class ViewKNN implements ViewInterface {
 
     @Override
     public void showCsvPopup(){
-        Stage popupCsv = new Stage();
-        popupCsv.initModality(Modality.APPLICATION_MODAL);
-        popupCsv.initOwner(stage);
-        VBox vBox = new VBox(10);
-        vBox.setSpacing(10);
-        Button button = new Button("Ok");
-        button.setOnAction(actionEvent -> popupCsv.close());
-        vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().add(new Label("Debes usar un fichero csv!"));
-        vBox.getChildren().add(button);
-        Scene dialogScene = new Scene(vBox, 200, 100);
-        popupCsv.setScene(dialogScene);
-        popupCsv.show();
+        showPopup("Se esperaba un fichero csv!");
     }
     @Override
     public void showInvalidPointPopup(){
-        Stage popupPoint = new Stage();
-        popupPoint.initModality(Modality.APPLICATION_MODAL);
-        popupPoint.initOwner(stage);
+        showPopup("Introduce el punto correctamente\nEjemplo de uso: 1.0, 1.2, 2.1, 1.6");
+    }
+    private void showPopup(String advertisement){
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.initOwner(stage);
         VBox vBox = new VBox(10);
         vBox.setSpacing(10);
         Button button = new Button("Ok");
-        button.setOnAction(actionEvent -> popupPoint.close());
+        button.setOnAction(actionEvent -> popup.close());
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().add(new Label("Introduce el punto correctamente\nEjemplo de uso: 1.0, 1.2, 2.1, 1.6"));
+        vBox.getChildren().add(new Label(advertisement));
         vBox.getChildren().add(button);
-        Scene dialogScene = new Scene(vBox, 300, 150);
-        popupPoint.setScene(dialogScene);
-        popupPoint.show();
+        Scene dialogScene = new Scene(vBox,300,150);
+        popup.setScene(dialogScene);
+        popup.show();
     }
 }

@@ -1,6 +1,6 @@
 package aiAlgorithms;
 
-import Singleton.SingletonTableSamples;
+import Singleton.SingletonFileSamples;
 import aIAlgorithms.KNN;
 import csv.CSV;
 import distance.EuclideanDistance;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class KNNTest {
     CSV fichero = new CSV();
-    String fName = SingletonTableSamples.getTableWithLabelsFile();
+    String fName = SingletonFileSamples.getTableWithLabelsFile();
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
     Distance euclideanDistance = new EuclideanDistance();
     Distance manhattanDistance = new ManhattanDistance();

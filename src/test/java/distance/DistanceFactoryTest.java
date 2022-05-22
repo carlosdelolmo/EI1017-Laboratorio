@@ -1,6 +1,6 @@
 package distance;
 
-import Singleton.SingletonTableSamples;
+import Singleton.SingletonFileSamples;
 import csv.CSV;
 import interfaces.Distance;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DistanceFactoryTest {
     CSV fichero = new CSV();
-    String fName = SingletonTableSamples.getTableFile();
+    String fName = SingletonFileSamples.getTableFile();
     Table tabla = fichero.readTable(fName);
 
     DistanceFactoryTest() throws FileNotFoundException {

@@ -1,6 +1,6 @@
 package mvc;
 
-import Singleton.SingletonTableSamples;
+import Singleton.SingletonFileSamples;
 import distance.DistanceFactory;
 import distance.DistanceType;
 import interfaces.*;
@@ -16,7 +16,7 @@ public class ControllerKNN implements ControllerInterface {
     private List<Double> lastPoint;
     private String lastLabel;
     public ControllerKNN(){}
-    private final String sampleFile = SingletonTableSamples.getTableWithLabelsFile();
+    private final String sampleFile = SingletonFileSamples.getTableWithLabelsFile();
     public ControllerKNN(ModelInterface model, ViewKNN view){
         this.model = model;
         this.view = view;
@@ -62,10 +62,8 @@ public class ControllerKNN implements ControllerInterface {
     @Override
     public void setLastPoint(List<Double> point){ this.lastPoint = point;}
     @Override
-    public void openDefaultCsv(){
-        File file = new File(sampleFile);
-        model.loadData(file.getAbsolutePath());
-
+    public void loadDefaultData(){
+        model.loadData(sampleFile);
     }
     @Override
     public String getSampleFile() {
