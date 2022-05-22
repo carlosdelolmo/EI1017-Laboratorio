@@ -10,7 +10,7 @@ Mejoras propias
 - Creada una ventana "popup" que aparece si el punto introducido no pasa la validación anterior.
 - Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
 - Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
-- Añadido nuevo botón que permite abrir dataset de ejemplo. El controlador se encarga de gestionarlo y pasarle al modelo el fichero a leer.
+- Añadido nuevo botón que permite abrir un dataset de ejemplo. El controlador se encarga de gestionarlo y pasarle al modelo el fichero a leer.
 - Añadida una clase SigletonTableSamples que proporciona un punto de acceso global a ficheros de ejemplo. Esto permitiría trabajar de forma eficiente con varios controladores y tests. Al cambiar el fichero de ejemplo en la clase Sigleton, todas las clases que dependen de ella se actualizarían.
 
 Sesion 1
