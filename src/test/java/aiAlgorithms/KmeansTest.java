@@ -1,5 +1,6 @@
 package aiAlgorithms;
 
+import Singleton.SingletonTableSamples;
 import csv.CSV;
 import distance.EuclideanDistance;
 import distance.ManhattanDistance;
@@ -18,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KmeansTest {
     CSV fichero = new CSV();
-    String sep = System.getProperty("file.separator");
-    String fName = "data"+sep+ "iris.csv";
+    String fName = SingletonTableSamples.getTableWithLabelsFile();
     TableWithLabels tabla = (TableWithLabels) fichero.readTableWithLabels(fName);
     Distance euclideanDistance = new EuclideanDistance();
     Distance manhattanDistance = new ManhattanDistance();

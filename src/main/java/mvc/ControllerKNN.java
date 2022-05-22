@@ -1,8 +1,8 @@
 package mvc;
 
+import Singleton.SingletonTableSamples;
 import distance.DistanceFactory;
 import distance.DistanceType;
-import distance.EuclideanDistance;
 import interfaces.*;
 import javafx.stage.FileChooser;
 
@@ -16,7 +16,7 @@ public class ControllerKNN implements ControllerInterface {
     private List<Double> lastPoint;
     private String lastLabel;
     public ControllerKNN(){}
-    private final String sampleFile = "data/iris.csv";
+    private final String sampleFile = SingletonTableSamples.getTableWithLabelsFile();
     public ControllerKNN(ModelInterface model, ViewKNN view){
         this.model = model;
         this.view = view;
@@ -52,8 +52,6 @@ public class ControllerKNN implements ControllerInterface {
             }
             catch(Exception exception){
                 view.showInvalidPointPopup();
-                // exception.printStackTrace();
-                // System.out.println("Formato incorrecto de los números");
             }
         }
         else view.showInvalidPointPopup();

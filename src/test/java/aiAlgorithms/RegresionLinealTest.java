@@ -1,5 +1,6 @@
 package aiAlgorithms;
 
+import Singleton.SingletonTableSamples;
 import csv.CSV;
 import aIAlgorithms.RegresionLineal;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RegresionLinealTest {
     CSV fichero = new CSV();
-    String sep = System.getProperty("file.separator");
-    String fName = "data"+sep+ "miles_dollars.csv";
+    String fName = SingletonTableSamples.getTableFile();
     Table tabla = fichero.readTable(fName);
     RegresionLineal regresion = new RegresionLineal() {
 

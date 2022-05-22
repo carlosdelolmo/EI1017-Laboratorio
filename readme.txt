@@ -7,9 +7,11 @@ Mejoras propias
 - Creada una excepción propia InvalidFileTypeException.
 - Creada una ventana "popup" que aparece si el fichero que se abre no es csv y advierte al usuario.
 - Gestionada en el controlador la inserción de puntos para estimar. Si se introducen valores que no se pueden pasar a Double no produce un error.
-- Creada una ventana "popup" que aparece si el punto introducido no pasa la validación.
+- Creada una ventana "popup" que aparece si el punto introducido no pasa la validación anterior.
 - Añadido nuevo botón para volver al principio en la interfaz gráfica, permitiendo escoger nuevamente un fichero.
 - Añadido nuevo botón para volver a ver un punto anterior ya estimado. La información referente al anterior punto la tiene el controlador, y es la vista la que se la pide cuando la requiere.
+- Añadido nuevo botón que permite abrir dataset de ejemplo. El controlador se encarga de gestionarlo y pasarle al modelo el fichero a leer.
+- Añadida una clase SigletonTableSamples que proporciona un punto de acceso global a ficheros de ejemplo. Esto permitiría trabajar de forma eficiente con varios controladores y tests. Al cambiar el fichero de ejemplo en la clase Sigleton, todas las clases que dependen de ella se actualizarían.
 
 Sesion 1
 ========
@@ -29,6 +31,7 @@ Sesion 1
 
 4 	En algunas pruebas no se sabe cómo se ha obtenido el valor esperado o podría mejorarse/automatizarse
 		Se automatizan mediante el uso de los métodos ya definidos y bucles
+		Se automatiza la obtención del nombre de los ficheros a usar mediante el patrón de diseño Singleton. Si quisiésemos cambiar alguno de los ficheros csv usados, solo habría que realizar un cambio en la clase Singleton.
 
 Sesion 2
 =========
