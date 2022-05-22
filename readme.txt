@@ -13,7 +13,7 @@ Mejoras propias
 - Añadido nuevo botón que permite abrir un dataset de ejemplo. El controlador se encarga de gestionarlo y pasarle al modelo el fichero a leer.
 - Añadida una clase SigletonTableSamples que proporciona un punto de acceso global a ficheros de ejemplo. Esto permitiría trabajar de forma eficiente con varios controladores y tests. Al cambiar el fichero de ejemplo en la clase Sigleton, todas las clases que dependen de ella se actualizarían.
 
-Sesion 1
+Sesión 1
 ========
 7	Estupenda factorización del código en CSV. Me encanta.
 8	Los tipos que se usan en los argumentos de algunos métodos son cuestionables
@@ -33,7 +33,7 @@ Sesion 1
 		Se automatizan mediante el uso de los métodos ya definidos y bucles
 		Se automatiza la obtención del nombre de los ficheros a usar mediante el patrón de diseño Singleton. Si quisiésemos cambiar alguno de los ficheros csv usados, solo habría que realizar un cambio en la clase Singleton.
 
-Sesion 2
+Sesión 2
 =========
 21*	Se tienen como atributos de la clase más info de la necesaria
 		Se suprimen los atributos de clase no necesarios
@@ -63,7 +63,7 @@ Sesion 2
 39*	El concepto de kmeans() no parece que esté claro; y parece que la implementación se resiente, aunque se nota un esfuerzo en tener una solución modular
 		Se ha modificado gran parte de la implementación de kmeans. Inicialmente se tenía una idea confusa de el concepto, pero en las siguientes clases de prácitcas se han solucionado.
 
-Sesion 3
+Sesión 3
 ========
 17	ElementoFichero → “Fichero”? Nombre mejorable, confuso
 		Corregido, elementoFichero --> fila
@@ -71,7 +71,7 @@ Sesion 3
 18	Switch → sintaxis “nueva”. Sugiero la clásica para facilitar corrección de futuras entregas
 		Corregido en todos los switch encontrados
 
-Sesion 4
+Sesión 4
 ========
 2	estimateParams (Controller): no sería “estimateClass” o algo así?
 		Corregido
